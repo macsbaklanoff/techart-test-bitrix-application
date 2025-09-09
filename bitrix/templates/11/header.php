@@ -16,7 +16,7 @@
         <? $APPLICATION->ShowPanel(); ?>
     </div>
     <header class="header">
-        <a href='#' class="header_info">
+        <a href='/' class="header_info">
             <img class="header_info_icon" src="/bitrix/templates/11/icons/logo 1.svg">
             <p class="header_info_headline">ГАЛАКТИЧЕСКИЙ </br> ВЕСТНИК</p>
         </a>

@@ -77,6 +77,7 @@
   font-size: 16px;
   text-transform: uppercase;
   border-radius: 50px;
+  text-decoration: none;
 }
 
 .button_more:hover {
@@ -87,6 +88,6 @@
 }
 
 .button_more:hover .more-arrow {
-  content: url('/uploads/icons/arrow-more-hover.png');
+  content: url('/bitrix/templates/11/icons/arrow-more-hover.png');
   transition: 250ms;
 }

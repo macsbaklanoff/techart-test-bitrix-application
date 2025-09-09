@@ -8,8 +8,8 @@
 
 <div class="main_content">
     <h4 class="news_header_headline">Новости</h4>
-    <button class="button_more" onclick="window.location.href = '#'">
+    <a href="news-list/" class="button_more">
         Подробнее
         <img class="more-arrow" src="/bitrix/templates/11/icons/arrow-more.png">
-    </button>
+</a>
 </div>
