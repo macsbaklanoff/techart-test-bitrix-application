@@ -1,11 +1,11 @@
 <?php
 $arUrlRewrite=array (
-  7 => 
+  11 => 
   array (
-    'CONDITION' => '#^/news-list/page-([0-9]+)/#',
+    'CONDITION' => '#^/news-list/page-([0-9]+)/^#',
     'RULE' => '',
-    'ID' => 'resource:news.list',
-    'PATH' => '/news/list/index.php',
+    'ID' => 'bitrix:news.list',
+    'PATH' => '/index.php',
     'SORT' => 100,
   ),
   9 => 
@@ -20,8 +20,8 @@ $arUrlRewrite=array (
   array (
     'CONDITION' => '#^/news-list/#',
     'RULE' => '',
-    'ID' => 'resource:news.list',
-    'PATH' => '/news/list/index.php',
+    'ID' => 'bitrix:news.list',
+    'PATH' => '/index.php',
     'SORT' => 100,
   ),
 );
