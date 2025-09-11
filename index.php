@@ -32,9 +32,17 @@ $APPLICATION->SetTitle("Test");
 // $arParams['news'] = $newsList;
 // $arParams['currentPage'] = $currentPage;
 
-
 $arParams = array(
   "IBLOCK_ID" => 9,
+  "IBLOCK_TYPE" => "news",
+  "PROPERTY_CODE" => array("id", "date", "title", "announce", "content", "image"),
+  "SORT_BY1" => "PROPERTY_DATE",
+  "SORT_ORDER1" => "DESC",
+
+  "NEWS_COUNT" => 4,
+  // "PAGER_TEMPLATE" => "round", 
+  // "DISPLAY_BOTTOM_PAGER" => true, 
+  // "PAGER_SHOW_ALWAYS" => true, 
 );
 
 $APPLICATION->IncludeComponent(
