@@ -2,21 +2,21 @@
 $aMenuLinks = Array(
 	Array(
 		"История", 
-		"/history", 
+		"/company/history.php", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
 		"Миссия", 
-		"/mission", 
+		"/company/mission.php", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
 		"Руководство", 
-		"/management", 
+		"/company/management.php", 
 		Array(), 
 		Array(), 
 		"" 
