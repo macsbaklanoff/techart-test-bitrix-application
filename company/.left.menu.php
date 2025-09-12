@@ -1,0 +1,25 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"История", 
+		"/history", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Миссия", 
+		"/mission", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Руководство", 
+		"/management", 
+		Array(), 
+		Array(), 
+		"" 
+	)
+);
+?>

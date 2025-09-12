@@ -1,11 +1,10 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 $APPLICATION->SetTitle("Test");
-?><?
-$APPLICATION->IncludeComponent(
-	"bitrix:news.detail", 
-	"news.detail.template", 
-	array(
+?><?$APPLICATION->IncludeComponent(
+	"bitrix:news.detail",
+	"detail",
+	Array(
 		"ACTIVE_DATE_FORMAT" => "d.m.Y",
 		"ADD_ELEMENT_CHAIN" => "N",
 		"ADD_SECTIONS_CHAIN" => "Y",
@@ -18,7 +17,8 @@ $APPLICATION->IncludeComponent(
 		"CACHE_GROUPS" => "Y",
 		"CACHE_TIME" => "36000000",
 		"CACHE_TYPE" => "A",
-		"CHECK_DATES" => "Y",
+		"CHECK_DATES" => "N",
+		"COMPONENT_TEMPLATE" => "news.detail.template",
 		"DETAIL_URL" => "",
 		"DISPLAY_BOTTOM_PAGER" => "Y",
 		"DISPLAY_DATE" => "Y",
@@ -28,10 +28,7 @@ $APPLICATION->IncludeComponent(
 		"DISPLAY_TOP_PAGER" => "N",
 		"ELEMENT_CODE" => "",
 		"ELEMENT_ID" => $_REQUEST["ID"],
-		"FIELD_CODE" => array(
-			0 => "",
-			1 => "",
-		),
+		"FIELD_CODE" => array("ID","NAME","PREVIEW_TEXT","DETAIL_TEXT","DETAIL_PICTURE","ACTIVE_FROM","ACTIVE_TO",),
 		"IBLOCK_ID" => "9",
 		"IBLOCK_TYPE" => "news",
 		"IBLOCK_URL" => "",
@@ -43,7 +40,7 @@ $APPLICATION->IncludeComponent(
 		"PAGER_SHOW_ALL" => "N",
 		"PAGER_TEMPLATE" => ".default",
 		"PAGER_TITLE" => "Страница",
-		"PROPERTY_CODE" => array("id","date","title","announce","content","image"),
+		"PROPERTY_CODE" => array("",""),
 		"SET_BROWSER_TITLE" => "Y",
 		"SET_CANONICAL_URL" => "N",
 		"SET_LAST_MODIFIED" => "N",
@@ -54,8 +51,6 @@ $APPLICATION->IncludeComponent(
 		"SHOW_404" => "N",
 		"STRICT_SECTION_CHECK" => "N",
 		"USE_PERMISSIONS" => "N",
-		"USE_SHARE" => "N",
-		"COMPONENT_TEMPLATE" => "news.detail.template"
-	),
-	false
+		"USE_SHARE" => "N"
+	)
 );?><? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>
