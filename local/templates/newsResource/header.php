@@ -16,14 +16,14 @@
 		<? $APPLICATION->ShowPanel(); ?>
 	</div>
 	<header class="header">
-		<a href='/' class="header_info">
+		<a href='/news' class="header_info">
 			<img class="header_info_icon" src="/upload/icons/logo 1.svg">
 			<p class="header_info_headline">ГАЛАКТИЧЕСКИЙ </br> ВЕСТНИК</p>
 		</a>
 		<div class="header_menu">
 			<? $APPLICATION->IncludeComponent(
 	"bitrix:menu", 
-	"horizontal_multilevel.template", 
+	"horizontal_multilevel", 
 	array(
 		"ALLOW_MULTI_SELECT" => "N",
 		"CHILD_MENU_TYPE" => "left",
