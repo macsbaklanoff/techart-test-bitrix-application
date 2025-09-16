@@ -1,11 +1,19 @@
 <?php
 $arUrlRewrite=array (
-  0 => 
+  1 => 
   array (
-    'CONDITION' => '#^/detail/#',
+    'CONDITION' => '#^/news/filter-theme/(\\d+)/#',
     'RULE' => '',
     'ID' => '',
-    'PATH' => '/detail/index.php',
+    'PATH' => '/news/index.php',
+    'SORT' => 100,
+  ),
+  0 => 
+  array (
+    'CONDITION' => '#^/news/(\\d+)/#',
+    'RULE' => '',
+    'ID' => '',
+    'PATH' => '/news/detail.php',
     'SORT' => 100,
   ),
 );

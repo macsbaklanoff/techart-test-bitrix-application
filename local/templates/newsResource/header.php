@@ -16,7 +16,7 @@
 		<? $APPLICATION->ShowPanel(); ?>
 	</div>
 	<header class="header">
-		<a href='/news' class="header_info">
+		<a href='/news/' class="header_info">
 			<img class="header_info_icon" src="/upload/icons/logo 1.svg">
 			<p class="header_info_headline">ГАЛАКТИЧЕСКИЙ </br> ВЕСТНИК</p>
 		</a>
@@ -35,9 +35,10 @@
 		"MENU_CACHE_TYPE" => "N",
 		"MENU_CACHE_USE_GROUPS" => "Y",
 		"ROOT_MENU_TYPE" => "top",
-		"USE_EXT" => "N",
-		"COMPONENT_TEMPLATE" => "horizontal_multilevel.template",
-		"MENU_THEME" => "site"
+		"USE_EXT_MENU" => "Y",
+		"COMPONENT_TEMPLATE" => "horizontal_multilevel",
+		"MENU_THEME" => "site",
+		"USE_EXT" => "Y"
 	),
 	false
 ); ?>

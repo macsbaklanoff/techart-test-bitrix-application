@@ -1,6 +1,12 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 $APPLICATION->SetTitle("Test");
+
+$matches = array();
+preg_match('#^/news/(\d+)#', $_SERVER['REQUEST_URI'], $matches);
+
+$idNews = $matches[1];
+
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:news.detail",
 	"detail",
@@ -27,7 +33,7 @@ $APPLICATION->SetTitle("Test");
 		"DISPLAY_PREVIEW_TEXT" => "Y",
 		"DISPLAY_TOP_PAGER" => "N",
 		"ELEMENT_CODE" => "",
-		"ELEMENT_ID" => $_REQUEST["ID"],
+		"ELEMENT_ID" => $idNews,
 		"FIELD_CODE" => array("ID","NAME","PREVIEW_TEXT","DETAIL_TEXT","DETAIL_PICTURE","ACTIVE_FROM","ACTIVE_TO",),
 		"IBLOCK_ID" => "9",
 		"IBLOCK_TYPE" => "news",
