@@ -68,6 +68,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 		<? endif; ?>
 		<input type="hidden" name="PARAMS_HASH" value="<?= $arResult["PARAMS_HASH"] ?>">
-		<input type="submit" name="submit" value="<?= GetMessage("MFT_SUBMIT") ?>">
+		<input type="submit" name="submit" value="Отправить"> <!-- Из за отсутствия языковых файлов getMessage('MTF_SUBMIT') не работал!-->
 	</form>
 </div>

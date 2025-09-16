@@ -1,0 +1,1843 @@
+<?
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetTitle("Мебельная компания");
+?><p>
+Наша компания существует на Российском рынке с 1992 года. За это время «Мебельная компания» прошла большой путь от маленькой торговой фирмы до одного из крупнейших производителей корпусной мебели в России.
+</p><p>
+«Мебельная компания» осуществляет производство мебели на высококлассном оборудовании с применением минимальной доли ручного труда, что позволяет обеспечить высокое качество нашей продукции. Налажен производственный процесс как массового и индивидуального характера, что с одной стороны позволяет обеспечить постоянную номенклатуру изделий и индивидуальный подход – с другой.
+<h3>Наша продукция</h3>
+<?$APPLICATION->IncludeComponent("bitrix:furniture.catalog.index", "", array(
+	"IBLOCK_TYPE" => "products",
+	"IBLOCK_ID" => "6",
+	"IBLOCK_BINDING" => "section",
+	"CACHE_TYPE" => "A",
+	"CACHE_TIME" => "36000000",
+	"CACHE_GROUPS" => "N"
+	),
+	false
+);?>
+<h3>Наши услуги</h3>
+<?$APPLICATION->IncludeComponent("bitrix:furniture.catalog.index", "", array(
+	"IBLOCK_TYPE" => "products",
+	"IBLOCK_ID" => "7",
+	"IBLOCK_BINDING" => "element",
+	"CACHE_TYPE" => "A",
+	"CACHE_TIME" => "36000000",
+	"CACHE_GROUPS" => "N"
+	),
+	false
+);?>
+</p><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+
+
+
+
+
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+
+
+<?php
+if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+/** @global CMain $APPLICATION */
+
+// region Check common parameters
+$arParams['COMPATIBLE_MODE'] = (string)($arParams['COMPATIBLE_MODE'] ?? 'N');
+
+$arParams['USE_FILTER'] = (string)($arParams['USE_FILTER'] ?? 'N');
+if ($arParams['USE_FILTER'] !== 'Y')
+{
+	$arParams['USE_FILTER'] = 'N';
+}
+if ($arParams['USE_FILTER'] === 'Y')
+{
+	$arParams["FILTER_NAME"] = trim((string)($arParams['FILTER_NAME'] ?? ''));
+	if (
+		$arParams["FILTER_NAME"] === ''
+		|| !preg_match("/^[A-Za-z_][A-Za-z01-9_]*$/", $arParams['FILTER_NAME'])
+	)
+	{
+		$arParams['FILTER_NAME'] = 'arrFilter';
+	}
+}
+else
+{
+	$arParams['FILTER_NAME'] = '';
+}
+
+$arParams['ADD_PROPERTIES_TO_BASKET'] ??= '';
+$arParams['PARTIAL_PRODUCT_PROPERTIES'] ??= '';
+$arParams['SET_LAST_MODIFIED'] ??= '';
+
+$arParams['USE_MAIN_ELEMENT_SECTION'] ??= '';
+
+$arParams['USE_COMPARE'] = (string)($arParams['USE_COMPARE'] ?? 'N');
+$arParams['COMPARE_NAME'] ??= '';
+
+$arParams['COMPARE_FIELD_CODE'] = ($arParams['COMPARE_FIELD_CODE'] ?? []);
+if (!is_array($arParams['COMPARE_FIELD_CODE']))
+{
+	$arParams['COMPARE_FIELD_CODE'] = [];
+}
+$arParams['COMPARE_FIELD_CODE'] = array_filter($arParams['COMPARE_FIELD_CODE']);
+
+$arParams['COMPARE_PROPERTY_CODE'] = ($arParams['COMPARE_PROPERTY_CODE'] ?? []);
+if (!is_array($arParams['COMPARE_PROPERTY_CODE']))
+{
+	$arParams['COMPARE_PROPERTY_CODE'] = [];
+}
+$arParams['COMPARE_PROPERTY_CODE'] = array_filter($arParams['COMPARE_PROPERTY_CODE']);
+
+$arParams['COMPARE_OFFERS_FIELD_CODE'] = ($arParams['COMPARE_OFFERS_FIELD_CODE'] ?? []);
+if (!is_array($arParams['COMPARE_OFFERS_FIELD_CODE']))
+{
+	$arParams['COMPARE_OFFERS_FIELD_CODE'] = [];
+}
+$arParams['COMPARE_OFFERS_FIELD_CODE'] = array_filter($arParams['COMPARE_OFFERS_FIELD_CODE']);
+
+$arParams['COMPARE_OFFERS_PROPERTY_CODE'] = ($arParams['COMPARE_OFFERS_PROPERTY_CODE'] ?? []);
+if (!is_array($arParams['COMPARE_OFFERS_PROPERTY_CODE']))
+{
+	$arParams['COMPARE_OFFERS_PROPERTY_CODE'] = [];
+}
+$arParams['COMPARE_OFFERS_PROPERTY_CODE'] = array_filter($arParams['COMPARE_OFFERS_PROPERTY_CODE']);
+
+$arParams['COMPARE_ELEMENT_SORT_FIELD'] = (string)($arParams['COMPARE_ELEMENT_SORT_FIELD'] ?? 'SORT');
+$arParams['COMPARE_ELEMENT_SORT_ORDER'] = (string)($arParams['COMPARE_ELEMENT_SORT_ORDER'] ?? 'ASC');
+$arParams['DISPLAY_ELEMENT_SELECT_BOX'] = (string)($arParams['DISPLAY_ELEMENT_SELECT_BOX'] ?? 'N');
+$arParams['ELEMENT_SORT_FIELD_BOX'] = (string)($arParams['ELEMENT_SORT_FIELD_BOX'] ?? 'NAME');
+$arParams['ELEMENT_SORT_ORDER_BOX'] = (string)($arParams['ELEMENT_SORT_ORDER_BOX'] ?? 'ASC');
+$arParams['ELEMENT_SORT_FIELD_BOX2'] = (string)($arParams['ELEMENT_SORT_FIELD_BOX2'] ?? 'ID');
+$arParams['ELEMENT_SORT_ORDER_BOX2'] = (string)($arParams['ELEMENT_SORT_ORDER_BOX2'] ?? 'DESC');
+
+if (!\Bitrix\Main\Analytics\Catalog::isOn())
+{
+	$arParams['USE_BIG_DATA'] = 'N';
+}
+
+//default gifts
+if(empty($arParams['USE_GIFTS_SECTION']))
+{
+	$arParams['USE_GIFTS_SECTION'] = 'Y';
+}
+if(empty($arParams['GIFTS_SECTION_LIST_PAGE_ELEMENT_COUNT']))
+{
+	$arParams['GIFTS_SECTION_LIST_PAGE_ELEMENT_COUNT'] = 3;
+}
+$arParams['GIFTS_SECTION_LIST_HIDE_BLOCK_TITLE'] ??= '';
+$arParams['GIFTS_SECTION_LIST_BLOCK_TITLE'] ??= '';
+$arParams['GIFTS_SECTION_LIST_TEXT_LABEL_GIFT'] ??= '';
+if(empty($arParams['GIFTS_MAIN_PRODUCT_DETAIL_PAGE_ELEMENT_COUNT']))
+{
+	$arParams['GIFTS_MAIN_PRODUCT_DETAIL_PAGE_ELEMENT_COUNT'] = 4;
+}
+$arParams['GIFTS_MAIN_PRODUCT_DETAIL_HIDE_BLOCK_TITLE'] ??= '';
+$arParams['GIFTS_MAIN_PRODUCT_DETAIL_BLOCK_TITLE'] ??= '';
+
+$arParams['USE_GIFTS_DETAIL'] ??= '';
+if(empty($arParams['GIFTS_DETAIL_PAGE_ELEMENT_COUNT']))
+{
+	$arParams['GIFTS_DETAIL_PAGE_ELEMENT_COUNT'] = 4;
+}
+$arParams['GIFTS_DETAIL_HIDE_BLOCK_TITLE'] ??= '';
+$arParams['GIFTS_DETAIL_BLOCK_TITLE'] ??= '';
+$arParams['GIFTS_DETAIL_TEXT_LABEL_GIFT'] ??= '';
+
+$arParams['USE_GIFTS_MAIN_PR_SECTION_LIST'] ??= '';
+
+$arParams['GIFTS_SHOW_DISCOUNT_PERCENT'] ??= '';
+$arParams['GIFTS_SHOW_OLD_PRICE'] ??= '';
+$arParams['GIFTS_SHOW_NAME'] ??= '';
+$arParams['GIFTS_SHOW_IMAGE'] ??= '';
+$arParams['GIFTS_MESS_BTN_BUY'] ??= '';
+$arParams['~GIFTS_MESS_BTN_BUY'] ??= '';
+
+$arParams['HIDE_NOT_AVAILABLE'] ??= '';
+$arParams['HIDE_NOT_AVAILABLE_OFFERS'] ??= '';
+$arParams['CONVERT_CURRENCY'] ??= '';
+$arParams['CURRENCY_ID'] ??= '';
+
+$arParams['STORES'] ??= [];
+$arParams['SHOW_EMPTY_STORE'] ??= '';
+$arParams['SHOW_GENERAL_STORE_INFORMATION'] ??= '';
+$arParams['USER_FIELDS'] ??= [];
+
+$arParams['ACTION_VARIABLE'] = (isset($arParams['ACTION_VARIABLE']) ? trim($arParams['ACTION_VARIABLE']) : 'action');
+if ($arParams["ACTION_VARIABLE"] == '' || !preg_match("/^[A-Za-z_][A-Za-z01-9_]*$/", $arParams["ACTION_VARIABLE"]))
+{
+	$arParams["ACTION_VARIABLE"] = "action";
+}
+
+$arParams['VARIABLE_ALIASES'] ??= [];
+
+$arParams['PAGER_PARAMS_NAME'] ??= '';
+$arParams['PAGER_BASE_LINK_ENABLE'] ??= '';
+$arParams['PAGER_BASE_LINK'] ??= '';
+$arParams['FILE_404'] ??= '';
+// end region
+
+// region hidden parameters
+$arParams['SHOW_404'] ??= '';
+$arParams['~MESSAGE_404'] ??= '';
+// endregion
+
+// region Standart template parameters for put on warnings in custom templates
+$arParams['INSTANT_RELOAD'] ??= '';
+
+$arParams['LABEL_PROP'] ??= '';
+$arParams['LABEL_PROP_MOBILE'] ??= '';
+$arParams['LABEL_PROP_POSITION'] ??= '';
+$arParams['ADD_PICT_PROP'] ??= '';
+
+$arParams['DISCOUNT_PERCENT_POSITION'] ??= '';
+
+$arParams['SHOW_MAX_QUANTITY'] ??= '';
+
+$arParams['LIST_PRODUCT_BLOCKS_ORDER'] ??= '';
+$arParams['LIST_SHOW_SLIDER'] ??= '';
+$arParams['LIST_PROPERTY_CODE_MOBILE'] ??= '';
+$arParams['LIST_PRODUCT_ROW_VARIANTS'] ??= '';
+$arParams['LIST_ENLARGE_PRODUCT'] ??= '';
+
+$arParams['DETAIL_SET_CANONICAL_URL'] ??= '';
+$arParams['SHOW_SKU_DESCRIPTION'] ??= '';
+$arParams['SHOW_DEACTIVATED'] ??= '';
+
+$arParams['PRODUCT_SUBSCRIPTION'] ??= '';
+
+$arParams['LAZY_LOAD'] ??= '';
+$arParams['LOAD_ON_SCROLL'] ??= '';
+
+$arParams['~MESS_BTN_BUY'] ??= '';
+$arParams['MESS_BTN_BUY'] ??= '';
+$arParams['~MESS_BTN_ADD_TO_BASKET'] ??= '';
+$arParams['MESS_BTN_ADD_TO_BASKET'] ??= '';
+$arParams['~MESS_BTN_COMPARE'] ??= '';
+$arParams['MESS_BTN_COMPARE'] ??= '';
+$arParams['~MESS_BTN_DETAIL'] ??= '';
+$arParams['MESS_BTN_DETAIL'] ??= '';
+$arParams['~MESS_NOT_AVAILABLE'] ??= '';
+$arParams['MESS_NOT_AVAILABLE'] ??= '';
+$arParams['~MESS_NOT_AVAILABLE_SERVICE'] ??= '';
+$arParams['MESS_NOT_AVAILABLE_SERVICE'] ??= '';
+$arParams['~MESS_BTN_SUBSCRIBE'] ??= '';
+$arParams['MESS_BTN_SUBSCRIBE'] ??= '';
+$arParams['~MESS_BTN_LAZY_LOAD'] ??= '';
+$arParams['MESS_BTN_LAZY_LOAD'] ??= '';
+// endregion
+
+$smartBase = ($arParams["SEF_URL_TEMPLATES"]["section"]?: "#SECTION_ID#/");
+$arDefaultUrlTemplates404 = array(
+	"sections" => "",
+	"section" => "#SECTION_ID#/",
+	"element" => "#SECTION_ID#/#ELEMENT_ID#/",
+	"compare" => "compare.php?action=COMPARE",
+	"smart_filter" => $smartBase."filter/#SMART_FILTER_PATH#/apply/"
+);
+
+$arDefaultVariableAliases404 = array();
+
+$arDefaultVariableAliases = array();
+
+$arComponentVariables = array(
+	"SECTION_ID",
+	"SECTION_CODE",
+	"ELEMENT_ID",
+	"ELEMENT_CODE",
+	"action",
+);
+
+$arVariables = array();
+if ($arParams["SEF_MODE"] === "Y")
+{
+	$engine = new CComponentEngine($this);
+	if (\Bitrix\Main\Loader::includeModule('iblock'))
+	{
+		$engine->addGreedyPart("#SECTION_CODE_PATH#");
+		$engine->addGreedyPart("#SMART_FILTER_PATH#");
+		$engine->setResolveCallback(array("CIBlockFindTools", "resolveComponentEngine"));
+	}
+	$arUrlTemplates = CComponentEngine::makeComponentUrlTemplates($arDefaultUrlTemplates404, $arParams["SEF_URL_TEMPLATES"]);
+	$arVariableAliases = CComponentEngine::makeComponentVariableAliases($arDefaultVariableAliases404, $arParams["VARIABLE_ALIASES"]);
+
+	$componentPage = $engine->guessComponentPath(
+		$arParams["SEF_FOLDER"],
+		$arUrlTemplates,
+		$arVariables
+	);
+
+	if ($componentPage === "smart_filter")
+		$componentPage = "section";
+
+	if(!$componentPage && isset($_REQUEST["q"]))
+		$componentPage = "search";
+
+	$b404 = false;
+	if(!$componentPage)
+	{
+		$componentPage = "sections";
+		$b404 = true;
+	}
+
+	if($componentPage == "section")
+	{
+		if (isset($arVariables["SECTION_ID"]))
+			$b404 |= (intval($arVariables["SECTION_ID"])."" !== $arVariables["SECTION_ID"]);
+		else
+			$b404 |= !isset($arVariables["SECTION_CODE"]);
+	}
+
+	if($b404 && CModule::IncludeModule('iblock'))
+	{
+		$folder404 = str_replace("\\", "/", $arParams["SEF_FOLDER"]);
+		if ($folder404 != "/")
+			$folder404 = "/".trim($folder404, "/ \t\n\r\0\x0B")."/";
+		if (mb_substr($folder404, -1) == "/")
+			$folder404 .= "index.php";
+
+		if ($folder404 != $APPLICATION->GetCurPage(true))
+		{
+			\Bitrix\Iblock\Component\Tools::process404(
+				""
+				,($arParams["SET_STATUS_404"] === "Y")
+				,($arParams["SET_STATUS_404"] === "Y")
+				,($arParams["SHOW_404"] === "Y")
+				,$arParams["FILE_404"]
+			);
+		}
+	}
+
+	CComponentEngine::initComponentVariables($componentPage, $arComponentVariables, $arVariableAliases, $arVariables);
+	$arResult = array(
+		"FOLDER" => $arParams["SEF_FOLDER"],
+		"URL_TEMPLATES" => $arUrlTemplates,
+		"VARIABLES" => $arVariables,
+		"ALIASES" => $arVariableAliases
+	);
+}
+else
+{
+	$arVariableAliases = CComponentEngine::makeComponentVariableAliases($arDefaultVariableAliases, $arParams["VARIABLE_ALIASES"]);
+	CComponentEngine::initComponentVariables(false, $arComponentVariables, $arVariableAliases, $arVariables);
+
+	$componentPage = "";
+
+	$arCompareCommands = array(
+		"COMPARE",
+		"DELETE_FEATURE",
+		"ADD_FEATURE",
+		"DELETE_FROM_COMPARE_RESULT",
+		"ADD_TO_COMPARE_RESULT",
+		"COMPARE_BUY",
+		"COMPARE_ADD2BASKET"
+	);
+
+	if(isset($arVariables["action"]) && in_array($arVariables["action"], $arCompareCommands))
+		$componentPage = "compare";
+	elseif(isset($arVariables["ELEMENT_ID"]) && intval($arVariables["ELEMENT_ID"]) > 0)
+		$componentPage = "element";
+	elseif(isset($arVariables["ELEMENT_CODE"]) && $arVariables["ELEMENT_CODE"] <> '')
+		$componentPage = "element";
+	elseif(isset($arVariables["SECTION_ID"]) && intval($arVariables["SECTION_ID"]) > 0)
+		$componentPage = "section";
+	elseif(isset($arVariables["SECTION_CODE"]) && $arVariables["SECTION_CODE"] <> '')
+		$componentPage = "section";
+	elseif(isset($_REQUEST["q"]))
+		$componentPage = "search";
+	else
+		$componentPage = "sections";
+
+	$currentPage = htmlspecialcharsbx($APPLICATION->GetCurPage())."?";
+	$arResult = array(
+		"FOLDER" => "",
+		"URL_TEMPLATES" => array(
+			"section" => $currentPage.$arVariableAliases["SECTION_ID"]."=#SECTION_ID#",
+			"element" => $currentPage.$arVariableAliases["SECTION_ID"]."=#SECTION_ID#"."&".$arVariableAliases["ELEMENT_ID"]."=#ELEMENT_ID#",
+			"compare" => $currentPage."action=COMPARE",
+		),
+		"VARIABLES" => $arVariables,
+		"ALIASES" => $arVariableAliases
+	);
+}
+
+$arResult["VARIABLES"]["SMART_FILTER_PATH"] ??= '';
+$arResult["VARIABLES"]["SECTION_ID"] ??= 0;
+$arResult["VARIABLES"]["SECTION_CODE"] ??= '';
+$arResult['VARIABLES']['ELEMENT_ID'] ??= 0;
+$arResult['VARIABLES']['ELEMENT_CODE'] ??= '';
+
+$this->IncludeComponentTemplate($componentPage);
+
+
+
+
+
+////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+
+
+
+
+<?php
+
+use Bitrix\Main;
+use Bitrix\Main\Localization\Loc;
+
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+
+class Home extends \CBitrixComponent {
+
+    public $dbContext;
+    
+    public function executeComponent() {
+        $this->initResult();
+        $this->includeComponentTemplate();
+    }
+
+    private function initResult() {
+        $this->dbContext = \Bitrix\Main\Application::getConnection();
+        $this->arResult['lastNews'] = $this->getLastNews();
+    }
+
+    public function getLastNews()
+    {
+        $data = $this->dbContext->query("SELECT * FROM news ORDER BY id DESC LIMIT 1");
+        
+        return $data->fetch();
+    }
+}
+
+
+
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+
+
+<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+$this->setFrameMode(true);
+?>
+<!-- Call to Action Section -->
+<section class="page-section bg-dark text-white" id="news">
+	<div class="container text-center">
+		<h2 class="mb-0">Новости</h2>
+		<hr class="divider my-4">
+	</div>
+	<div class="container text-center">
+		<div class="row justify-content-center">
+			<? foreach ($arResult["ITEMS"] as $arItem): ?>
+				<?
+				$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_EDIT"));
+				$this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
+				?>
+			<div class="col-lg-4 text-center">
+				<div class="card bg-secondary border border-dark">
+							<img class="card-img-top" src="<?= $arItem["PREVIEW_PICTURE"]["SRC"] ?>"
+								 alt="<? echo $arItem["NAME"] ?>">
+							<div class="card-body ">
+								<h5 class="card-title"><? echo $arItem["NAME"] ?></h5>
+								<? if ($arParams["DISPLAY_PREVIEW_TEXT"] != "N" && $arItem["PREVIEW_TEXT"]): ?>
+									<p class="card-text"><? echo $arItem["PREVIEW_TEXT"]; ?></p>
+								<? endif; ?>
+								<a href="<? echo $arItem["DETAIL_PAGE_URL"] ?>" class="btn btn-primary">Подробнее</a>
+							</div>
+				</div>
+			</div>
+			<? endforeach; ?>
+		</div>
+	</div>
+</section>
+
+//?PAGEN_1=2
+//={$_REQUEST["ELEMENT_ID"]}
+<!-- <?
+
+$arParams = array(
+  "IBLOCK_ID" => 9,
+  "IBLOCK_TYPE" => "news",
+  "PROPERTY_CODE" => array("id", "date", "title", "announce", "content", "image"),
+  "SORT_BY1" => "PROPERTY_ID",
+  "SORT_ORDER1" => "DESC",
+
+  "NEWS_COUNT" => 1,
+);
+
+$APPLICATION->IncludeComponent(
+  "bitrix:news.list",
+  "banner",
+  $arParams,
+  false
+);
+
+$arParams = array(
+  "IBLOCK_ID" => 9,
+  "IBLOCK_TYPE" => "news",
+  "PROPERTY_CODE" => array("id", "date", "title", "announce", "content", "image"),
+  "SORT_BY1" => "PROPERTY_DATE",
+  "SORT_ORDER1" => "DESC",
+
+  "NEWS_COUNT" => 4,
+);
+
+$APPLICATION->IncludeComponent(
+  "bitrix:news.list",
+  "news.list",
+  $arParams,
+  false
+);
+?> -->
+
+
+
+ID - ID элемента
+
+CODE - символьный код
+
+NAME - название
+
+PREVIEW_TEXT - анонс
+
+DETAIL_TEXT - детальное описание
+
+PREVIEW_PICTURE - картинка анонса (ID файла)
+
+DETAIL_PICTURE - детальная картинка (ID файла)
+
+DATE_CREATE - дата создания
+
+TIMESTAMP_X - дата изменения
+
+ACTIVE_FROM - начало активности
+
+ACTIVE_TO - окончание активности
+
+ACTIVE - активность (Y/N)
+
+SORT - сортировка
+
+DETAIL_PAGE_URL - URL детальной страницы
+
+LIST_PAGE_URL - URL страницы списка
+
+
+
+
+
+// $arParams['news'] = [
+//   [
+//     'id' => 1,
+//     'date' => '2412-01-21 00:00:00',
+//     'title' => 'Папа Римский совершил визит в систему Альфы Центавра',
+//     // 'announce' => '<p>Папа Римский Жан-Клод XIV посетил с апостольским визитом систему Альфы Центавра. Он принял участие в ряде благотворительных мероприятий и совершил богослужение в соборе Ван-Дамм-де-Ури.</p>   ',
+//     // 'content' => 
+//     // 'image' =>
+//   ],
+//   [
+//     'id' => 2,
+//     'date' => '2412-02-02 00:00:00',
+//     'title' => 'На чемпионате по пустотной гребле победила команда с Фобоса',
+//     // 'announce' => '<p>В поясе астероидов на проходившем в последние выходные этапе системного чемпионата по пустотной гребле команда  с Фобоса одержала убедительную победу.</p>',                                                                                                                                                                                     |
+
+//   ],
+//   [
+//     'id' => 3,
+//     'date' => '2412-02-05 00:00:00',
+//     'title' => 'Давка на старте продаж нового Пайфона',
+//   ],
+//   [
+//     'id' => 4,
+//     'date' => '2412-02-08 00:00:00',
+//     'title' => 'Генсек ООН отреагировал на произошедшее'
+//   ],
+//   [
+//     'id' => 5,
+//     'date' => '2412-02-12 00:00:00',
+//     'title' => 'Кулебякин: решение ЖПН не выдерживает никакой критики'
+//   ],
+//   [
+//     'id' => 6,
+//     'date' => '2412-02-15 00:00:00',
+//     'title' => 'Закон всемирного тяготения изменят'
+//   ],
+//   [
+//     'id' => 7,
+//     'date' => '2412-02-18 00:00:00',
+//     'title' => 'Освящение нового храма'
+//   ],
+//   [
+//     'id' => 8,
+//     'date' => '2412-02-20 00:00:00',
+//     'title' =>'Пульфонический концерт на Венере'
+//   ],
+//   [
+//     'id' => 9,
+//     'date' => '2412-02-21 00:00:00',
+//     'title' => 'Цены на шпроты резко выросли'
+//   ],
+//   [
+//     'id' => 10,
+//     'date' => '2412-03-07 00:00:00',
+//     'title' => 'Премьера Энцелада избили и заставили подать в отставку'
+//   ],
+//   [
+//     'id' => 11,
+//     'date' => '2412-03-15 00:00:00',
+//     'title' => 'Марсотрясение в Фарсиде стало сильнейшим за последние 200 лет' 
+//   ],
+//   [
+//     'id' => 12,
+//     'date' => '2412-03-25 00:00:00',
+//     'title' => 'Скандал на пульфоническом концерте '
+//   ],
+//   [
+//     'id' => 13,
+//     'date' => '2412-04-02 00:00:00',
+//     'title' => 'Сатурн сообщил о росте товарооборота с Плутоном за год '
+//   ],
+//   [
+//     'id' => 14, 
+//     'date' => '2412-05-20 00:00:00',
+//     'title' => 'Суд над известным мафиози'
+//   ],
+//   [
+//     'id' => 15,
+//     'date' => '2412-05-26 00:00:00',
+//     'title' => 'Несчастный случай с известной светской дивой'
+//   ],
+//   [
+//     'id' => 16,
+//     'date' => '2412-06-08 00:00:00',
+//     'title' => 'Возвращение этнографа' 
+//   ],
+//   [
+//     'id' => 17,
+//     'date' => '2412-06-11 00:00:00',
+//     'title' => 'Откровения хозяйки лягушкофермы'
+//   ], 
+// ];
+
+
+
+
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+
+template menu
+
+
+<?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+
+<?if (!empty($arResult)):?>
+<ul class="left-menu">
+
+<?
+foreach($arResult as $arItem):
+	if($arParams["MAX_LEVEL"] == 1 && $arItem["DEPTH_LEVEL"] > 1) 
+		continue;
+?>
+	<?if($arItem["SELECTED"]):?>
+		<li><a href="<?=$arItem["LINK"]?>" class="selected"><?=$arItem["TEXT"]?></a></li>
+	<?else:?>
+		<li><a href="<?=$arItem["LINK"]?>"><?=$arItem["TEXT"]?></a></li>
+	<?endif?>
+	
+<?endforeach?>
+
+</ul>
+<?endif?>
+
+
+///doka-menu
+<?
+// пример файла .left.menu.php
+
+$aMenuLinks = Array(
+	Array(
+		"Каталог курсов", 
+		"index.php",
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Мои курсы",
+		"mycourses.php",
+		Array(), 
+		Array(), 
+		"\$GLOBALS['USER']->IsAuthorized()" 
+	),
+	Array(
+		"Журнал обучения",
+		"gradebook.php",
+		Array(), 
+		Array(), 
+		"\$GLOBALS['USER']->IsAuthorized()"  
+	),
+	Array(
+		"Анкета специалиста",
+		"profile.php",
+		Array(), 
+		Array(), 
+		"\$GLOBALS['USER']->IsAuthorized()"  
+	),
+);
+?>
+
+
+////my menu
+
+<?
+$aMenuLinks = array(
+    array(
+        "TEXT" => 'О компании',
+        "LINK" => 'company',
+        "ITEMS" => array(
+            array(
+                "TEXT" => "История",
+                "LINK" => "company/history",
+            ),
+            array(
+                "TEXT" => "О нас",
+                "LINK" => "company/about-us",
+            ),
+            array(
+                "TEXT" => "Руководство",
+                "LINK" => "company/management",
+            ),
+        ),
+    ),
+    array(
+        "TEXT" => 'Услуги',
+        "LINK" => 'services',
+        "ITEMS" => array(
+            array(
+                "TEXT" => "Диагностика",
+                "LINK" => "services/diagnostics",
+            ),
+            array(
+                "TEXT" => "Ремонт",
+                "LINK" => "services/repair",
+            ),
+            array(
+                "TEXT" => "Сервис",
+                "LINK" => "services/service",
+            ),
+        ),
+    ),
+    array(
+        "TEXT" => "Новости",
+        "LINK" => '/'
+    ),
+);
+?>
+
+
+<nav class="navbar navbar-expand-lg navbar-light test">
+		<?
+		$menu = $arParams['MENU'];
+		foreach ($menu as $item): ?>
+			<li class="menu-item">
+				<a href=<?= $item['LINK'] ?> class="test"><?= htmlspecialchars($item['TEXT']) ?></a>
+				<?
+				if (!empty($item['ITEMS'])): ?>
+					<ul class="submenu">
+						<?
+						foreach ($item['ITEMS'] as $itemSecondLevel): ?>
+							<li>
+								<a href=<?= $itemSecondLevel['LINK'] ?>><?= htmlspecialchars($itemSecondLevel['TEXT']) ?></a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
+			</li>
+		<?php endforeach; ?>
+</nav>
+
+
+///////
+		<div class="header_menu">
+			<? $APPLICATION->IncludeComponent(
+				"bitrix:menu",
+				"menu.template",
+				array(
+					"ALLOW_MULTI_SELECT" => "N",
+					"CHILD_MENU_TYPE" => "left",
+					"DELAY" => "N",
+					"MAX_LEVEL" => "1",
+					"MENU_CACHE_GET_VARS" => array(
+					),
+					"MENU_CACHE_TIME" => "3600",
+					"MENU_CACHE_TYPE" => "N",
+					"MENU_CACHE_USE_GROUPS" => "Y",
+					"ROOT_MENU_TYPE" => "left",
+					"USE_EXT" => "N",
+					"MENU" => array(
+						0 => array(
+							"TEXT" => "О компании",
+							"LINK" => "company",
+							"ITEMS" => array(
+								0 => array(
+									"TEXT" => "История",
+									"LINK" => "company/history",
+								),
+								1 => array(
+									"TEXT" => "О нас",
+									"LINK" => "company/about-us",
+								),
+								2 => array(
+									"TEXT" => "Руководство",
+									"LINK" => "company/management",
+								),
+							),
+						),
+						1 => array(
+							"TEXT" => "Услуги",
+							"LINK" => "services",
+							"ITEMS" => array(
+								0 => array(
+									"TEXT" => "Диагностика",
+									"LINK" => "services/diagnostics",
+								),
+								1 => array(
+									"TEXT" => "Ремонт",
+									"LINK" => "services/repair",
+								),
+								2 => array(
+									"TEXT" => "Сервис",
+									"LINK" => "services/service",
+								),
+							),
+						),
+						2 => array(
+							"TEXT" => "Новости",
+							"LINK" => "/",
+						),
+					),
+					"COMPONENT_TEMPLATE" => "menu.template",
+					"MENU_THEME" => "site"
+				),
+				false
+			); ?>
+		</div>
+
+
+$res = CIBlockElement::GetList(
+    [], // сортировка
+    ['ID' => $elementId, 'IBLOCK_ID' => $iblockId], // фильтр по ID и инфоблоку
+    false, false, ['ID', 'NAME']
+);
+
+
+
+if (CModule::IncludeModule("iblock")) {
+    $elementId = $arResult['PROPERTIES']['theme']['VALUE'][0]; 
+    
+    $res = CIBlockElement::GetByID($elementId);
+    if ($arRes = $res->GetNext()) {
+        print_r($arRes);
+    } else {
+        echo "Элемент не найден.";
+    }
+    var_dump($arRes);
+}
+
+
+                    foreach ($arResult['PROPERTIES']['theme']['VALUE'] as $itemTheme):
+                        $res = CIBlockElement::GetByID($itemTheme);
+                        $theme = $res->GetNext(); ?>
+                        <p><?=$theme['NAME']?></p> 
+                    <?php endforeach; ?>
+
+
+
+
+
+with pagination
+
+<? 
+        $hrefForPagination;
+        if (isset($_GET['filter-theme'])) $hrefForPagination = '/?filter-theme=' . $_GET['filter-theme'] . '?PAGEN_2=';
+        else $hrefForPagination = '?PAGEN_2='
+    ?>
+    <div class="news_pagination">
+         <a href = <?=$hrefForPagination . '1'?>
+            class="<?= $currentPage == 1 ? 'news_pagination_item current' : 'news_pagination_item' ?>">1</a>
+         <a href = <?=$hrefForPagination . '2'?>
+            class="<?= $currentPage == 2 ? 'news_pagination_item current' : 'news_pagination_item' ?>">2</a>
+         <a href = <?=$hrefForPagination . '3'?>
+            class="<?= $currentPage >= 3 ? 'news_pagination_item current' : 'news_pagination_item' ?>">
+            <?= $currentPage < 3 ? 3 : $currentPage ?>
+        </a>
+        <a href=<?=$hrefForPagination . ($currentPage + 1)?>
+            class="<?= ($currentPage * $countItemsPage) >= $totalCountNews ? 'none-news' : 'news_pagination_next' ?>">
+            <img class="arrow-next-page" src="/upload/icons/arrow-next-page.png">
+        </a>
+    </div>
+
+
+
+my pagination
+
+
+<div class="news_pagination">
+        <a href=<?= $hrefFromPagination . '1' ?>
+            class="<?= $currentPage == 1 ? 'news_pagination_item current' : 'news_pagination_item' ?>">1</a>
+        <a href=<?= $hrefFromPagination . '2' ?>
+            class="<?= $currentPage == 2 ? 'news_pagination_item current' : 'news_pagination_item' ?>">2</a>
+        <a href=<?= $hrefFromPagination . '3' ?>
+            class="<?= $currentPage >= 3 ? 'news_pagination_item current' : 'news_pagination_item' ?>">
+            <?= $currentPage < 3 ? 3 : $currentPage ?>
+        </a>
+        <a href=<?= "?PAGEN_2=" . ($currentPage + 1) ?>
+            class="<?= ($currentPage * $countItemsPage) >= $totalCountNews ? 'none-news' : 'news_pagination_next' ?>">
+            <img class="arrow-next-page" src="/upload/icons/arrow-next-page.png">
+        </a>
+    </div>
+
+
+<style>
+.main_content {
+  grid-column: 2/-2;
+}
+
+.news_header_headline {
+  margin: 0;
+  margin-top: 50px;
+  font-family: 'OpenSans-SemiBold';
+  font-size: 64px;
+  color: #000;
+}
+
+.button_more {
+  display: grid;
+  grid-template-columns: min-content min-content;
+  column-gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  width: 214px;
+  height: 54px;
+  background-color: #FFF;
+  color: #841844;
+  border: 2px #9B407A solid;
+  font-family: 'OpenSans-SemiBold';
+  font-size: 16px;
+  text-transform: uppercase;
+  border-radius: 50px;
+}
+
+.button_more:hover {
+  background-color: #841844;
+  color: #FFF;
+  transition: 250ms;
+  cursor: pointer;
+}
+
+.button_more:hover .more-arrow {
+  content: url('/upload/icons/arrow-more-hover.png');
+  transition: 250ms;
+}
+</style>
+
+<?
+require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
+$APPLICATION->SetTitle("Test");
+?>
+
+<div class="main_content">
+    <h4 class="news_header_headline">Новости</h4>
+    <button class="button_more" onclick="window.location.href = '/news/'">
+        Подробнее
+        <img class="more-arrow" src="/upload/icons/arrow-more.png">
+    </button>
+</div>
+
+<? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>
+
+
+
+
+
+
+<div class="detail_news_info_text_content_themes">
+                    <?
+                    var_dump($arResult['THEMES'][0]['NAME']);
+                    $themesIdArray = $arResult['PROPERTIES']['theme']['VALUE'];
+                    if (!empty($themesIdArray)):
+                        for ($i = 0; $i < count($themesIdArray); $i++):
+                            $res = CIBlockElement::GetByID($themesIdArray[$i]);
+                            $theme = $res->GetNext();
+                            if ($i + 1 < count($themesIdArray)): ?>
+                                <a href=<?= "/news/?filter-theme=" . $themesIdArray[$i] ?>
+                                    class="detail_news_info_text_themes_item"><?= $theme['NAME'] ?>, </a>
+                            <? else: ?>
+                                <a href=<?= "/news/?filter-theme=" . $themesIdArray[$i] ?>
+                                    class="detail_news_info_text_themes_item"><?= $theme['NAME'] ?></a>
+                            <? endif ?>
+                        <? endfor ?>
+                    <? endif ?>
+                </div
+
+
+
+$aMenuLinks = Array(
+	Array(
+		"Диагностика", 
+		"/services/diagnostics.php", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Ремонт", 
+		"/services/repair.php", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Сервис", 
+		"/services/service.php", 
+		Array(), 
+		Array(), 
+		"" 
+	)
+);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+<?
+$aMenuLinks = array();
+
+if(CModule::IncludeModule("iblock")) {
+    $arFilter = array(
+        'IBLOCK_ID' => 10,
+        'ACTIVE' => 'Y',
+        'GLOBAL_ACTIVE' => 'Y',
+        'DEPTH_LEVEL' => 1
+    );
+    
+    $rsSections = CIBlockSection::GetList(
+        array('SORT' => 'ASC'),
+        $arFilter,
+        false,
+        array('ID', 'NAME', 'SECTION_PAGE_URL')
+    );
+    
+    while($arSection = $rsSections->GetNext()) {
+        $aMenuLinks[] = array(
+            $arSection['NAME'],
+            $arSection['SECTION_PAGE_URL'],
+            array(),
+            array(),
+            ""
+        );
+    }
+}
+?>
+
+
+<div class="header_menu">
+    <? $APPLICATION->IncludeComponent(
+        "bitrix:menu.sections",
+        "horizontal_multilevel",
+        array(
+            "IBLOCK_TYPE" => "news",           
+            "IBLOCK_ID" => "10",              
+            "DEPTH_LEVEL" => "2",              
+            "CACHE_TYPE" => "A",
+            "CACHE_TIME" => "3600",
+            "IS_SEF" => "Y",
+            "SEF_BASE_URL" => "/news/",        // Базовый URL
+            "SECTION_PAGE_URL" => "#SECTION_CODE#/",
+            "DETAIL_PAGE_URL" => "#SECTION_CODE#/#ELEMENT_ID#",
+            "MENU_CACHE_USE_GROUPS" => "Y",
+            "COMPONENT_TEMPLATE" => "horizontal_multilevel"
+        ),
+        false
+    ); ?>
+</div>
+
+
+<div class="header_menu">
+    <? $APPLICATION->IncludeComponent(
+        "bitrix:menu",
+        "horizontal_multilevel",
+        array(
+            "ALLOW_MULTI_SELECT" => "N",
+            "CHILD_MENU_TYPE" => "left",
+            "DELAY" => "N",
+            "MAX_LEVEL" => "2",
+            "MENU_CACHE_GET_VARS" => array(),
+            "MENU_CACHE_TIME" => "3600",
+            "MENU_CACHE_TYPE" => "N",
+            "MENU_CACHE_USE_GROUPS" => "Y",
+            "ROOT_MENU_TYPE" => "top",
+            "USE_EXT" => "Y",
+            "COMPONENT_TEMPLATE" => "horizontal_multilevel",
+            "MENU_THEME" => "site"
+        ),
+        false
+    ); ?>
+    
+    <? if ($APPLICATION->GetCurDir() == '/news/'): ?>
+        <? $APPLICATION->IncludeComponent(
+            "bitrix:menu.sections",
+            "news_dropdown",
+            array(
+                "IBLOCK_TYPE" => "news",
+                "IBLOCK_ID" => "10",
+                "DEPTH_LEVEL" => "1",
+                "CACHE_TYPE" => "A",
+                "CACHE_TIME" => "3600",
+                "IS_SEF" => "Y",
+                "SEF_BASE_URL" => "/news/"
+            ),
+            false
+        ); ?>
+    <? endif; ?>
+</div>
+
+
+<?php
+$aMenuLinks = array();
+
+if (CModule::IncludeModule("iblock")) {
+    // Выбираем разделы, активные и внутри нужного инфоблока
+    $rsSections = CIBlockSection::GetList(
+        array('SORT' => 'ASC', 'NAME' => 'ASC'), // сортировка
+        array('IBLOCK_ID' => 10, 'ACTIVE' => 'Y'), // фильтр
+        false,
+        array('ID', 'NAME', 'SECTION_PAGE_URL') // выбираемые поля
+    );
+    
+    while ($arSection = $rsSections->Fetch()) {
+        $aMenuLinks[] = array(
+            $arSection['NAME'],                 
+            $arSection['SECTION_PAGE_URL'],     
+            array(),                           
+            array(),                            
+            ""                                  
+        );
+    }
+}
+
+var_dump($aMenuLinks);
+?>
+
+
+$rsElements = CIBlockElement::GetList(
+    array('SORT' => 'ASC', 'NAME' => 'ASC'), 
+    array('IBLOCK_ID' => 10, 'ACTIVE' => 'Y'), 
+    false, 
+    false, 
+    array('ID', 'NAME', 'DETAIL_PAGE_URL') 
+);
+
+while($ob = $rsElements->Fetch()) {
+    $aMenuLinks[] = array(
+        $ob['NAME'],
+        $ob['DETAIL_PAGE_URL'],
+        array(),
+        array(),
+        ""
+    );
+}
+
+
+for ($i = 0; $i < count($themes); $i++):
+                            if ($i + 1 < count($themes)): ?>
+                                <a href=<?= "/news/?filter-theme=" . $themes[$i]['ID'] ?>
+                                    class="detail_news_info_text_themes_item"><?= $themes[$i]['NAME'] ?>, </a>
+                            <? else: ?>
+                                <a href=<?= "/news/?filter-theme=" . $themes[$i]['ID'] ?>
+                                    class="detail_news_info_text_themes_item"><?= $themes[$i]['NAME'] ?></a>
+                            <? endif ?>
+                        <? endfor ?>
+
+
+<?php
+$links = array_map(function($theme) {
+    $url = "/news/?filter-theme=" . $theme['ID'];
+    $name = htmlspecialchars($theme['NAME']);
+    return "<a href=\"$url\" class=\"detail_news_info_text_themes_item\">$name</a>";
+}, $themes);
+
+echo implode(", ", $links);
+?>
+
+
+///////for .ext.php///////
+<?php
+if (CModule::IncludeModule("iblock")) {
+    // Получение элементов инфоблока
+    $elements = CIBlockElement::GetList(
+        array(),
+        array('IBLOCK_ID' => 10, 'ACTIVE' => 'Y'),
+        false,
+        false,
+        array('ID', 'NAME')
+    );
+
+    $menuLinks = array();
+
+    while ($arElement = $elements->Fetch()) {
+        $menuLinks[] = array(
+            $arElement['NAME'],
+            '/news/?filter-theme=' . $arElement['ID'],
+            array(),
+            array(),
+            "" // Передача дополнительных параметров, при необходимости
+        );
+    }
+
+    // Передача сформированного меню
+    $aMenuLinks = $menuLinks;
+}
+?>
+
+
+///////MENU NEWS LINKS ВЫПАДАЮЩИЙ СПИСОК РАБОЧИЙ
+
+<?php
+$aMenuLinks = array();
+
+if (CModule::IncludeModule("iblock")) {
+	$elements = CIBlockElement::GetList(
+		array(),
+		array('IBLOCK_ID' => 10, 'ACTIVE' => 'Y'),
+		false,
+		false,
+		array('ID', 'NAME')
+	);
+
+	while ($arElements = $elements->Fetch()) {
+		$aMenuLinks[] = array(
+			$arElements['NAME'],
+			'/news/?filter-theme=' . $arElements['ID'],
+			array(),
+			array(),
+			""
+		);
+	}
+}
+?>
+
+#SITE_DIR#/news/index.php?ID=#IBLOCK_ID#
+#SITE_DIR#/news/detail.php?ID=#ELEMENT_ID#
+
+
+////////////////////////////////////////////////////////answer ds chpu////////////////////////////////////////////////////////
+
+<?$APPLICATION->IncludeComponent(
+    "bitrix:news",
+    "news_template",
+    array(
+        "IBLOCK_TYPE" => "news",
+        "IBLOCK_ID" => "10",
+        "NEWS_COUNT" => "10",
+        "USE_SEARCH" => "N",
+        "USE_RSS" => "N",
+        "NUM_NEWS" => "20",
+        "NUM_DAYS" => "30",
+        "YANDEX" => "N",
+        "SEF_MODE" => "Y",
+        "SEF_FOLDER" => "/news/", 
+        "SEF_URL_TEMPLATES" => array(
+            "news" => "",
+            "section" => "#SECTION_CODE#/",
+            "detail" => "#SECTION_CODE#/#ELEMENT_CODE#.html",
+        ),
+        "VARIABLE_ALIASES" => array(
+            "news" => array(),
+            "section" => array(),
+            "detail" => array(),
+        )
+    ),
+    false
+);?>
+
+<div class="mf-select">
+			<label for="fruits">Выберите тему новости:</label>
+			<select id="fruits" name="fruits">
+				<? foreach ($arResult['THEMES'] as $theme): ?>
+					<option value=<?=$theme?>><?= $theme ?></option>
+				<? endforeach; ?>
+			</select>
+		</div>
+
+///////////CAPTHA/////////////
+<? if ($arParams["USE_CAPTCHA"] == "Y"): ?>
+			<div class="mf-captcha">
+				<div class="mf-text"><?= GetMessage("MFT_CAPTCHA") ?></div>
+				<input type="hidden" name="captcha_sid" value="<?= $arResult["capCode"] ?>">
+				<img src="/bitrix/tools/captcha.php?captcha_sid=<?= $arResult["capCode"] ?>" width="180" height="40"
+					alt="CAPTCHA">
+				<div class="mf-text"><?= GetMessage("MFT_CAPTCHA_CODE") ?><span class="mf-req">*</span></div>
+				<input type="text" name="captcha_word" size="30" maxlength="50" value="">
+			</div>
+		<? endif; ?>
+
+
+
+
+
+
+//////////bitrix:main.feedback////////////
+<?$APPLICATION->IncludeComponent(
+	"bitrix:main.feedback", 
+	"feedback", 
+	array(
+		"COMPONENT_TEMPLATE" => "feedback",
+		"USE_CAPTCHA" => "N",
+		"OK_TEXT" => "Спасибо, ваше сообщение принято.",
+		"EMAIL_TO" => "baklanov@techart.ru",
+		"REQUIRED_FIELDS" => array(
+		),
+		"EVENT_MESSAGE_ID" => array(
+            
+		)
+	),
+	false
+
+);?>
+
+
+
+
+
+<?
+if(!defined("B_PROLOG_INCLUDED")||B_PROLOG_INCLUDED!==true)die();
+
+/**
+ * Bitrix vars
+ *
+ * @var array $arParams
+ * @var array $arResult
+ * @var CBitrixComponent $this
+ * @global CMain $APPLICATION
+ * @global CUser $USER
+ */
+
+// Загрузка тем новостей
+$arResult["THEMES"] = array();
+if (CModule::IncludeModule("iblock")) {
+    $rsSections = CIBlockSection::GetList(
+        array('NAME' => 'ASC'),
+        array('IBLOCK_ID' => 10, 'ACTIVE' => 'Y'),
+        false,
+        array('ID', 'NAME')
+    );
+    while ($arSection = $rsSections->Fetch()) {
+        $arResult["THEMES"][$arSection['ID']] = $arSection['NAME'];
+    }
+}
+
+$arResult["PARAMS_HASH"] = md5(serialize($arParams).$this->GetTemplateName());
+
+$arParams["USE_CAPTCHA"] = (($arParams["USE_CAPTCHA"] != "N" && !$USER->IsAuthorized()) ? "Y" : "N");
+$arParams["EVENT_NAME"] = trim($arParams["EVENT_NAME"] ?? '');
+if($arParams["EVENT_NAME"] == '')
+    $arParams["EVENT_NAME"] = "FEEDBACK_FORM";
+$arParams["EMAIL_TO"] = trim($arParams["EMAIL_TO"] ?? '');
+if($arParams["EMAIL_TO"] == '')
+    $arParams["EMAIL_TO"] = COption::GetOptionString("main", "email_from");
+$arParams["OK_TEXT"] = trim($arParams["OK_TEXT"] ?? '');
+if($arParams["OK_TEXT"] == '')
+    $arParams["OK_TEXT"] = GetMessage("MF_OK_MESSAGE");
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["submit"]) && (!isset($_POST["PARAMS_HASH"]) || $arResult["PARAMS_HASH"] === $_POST["PARAMS_HASH"]))
+{
+    $arResult["ERROR_MESSAGE"] = array();
+    if(check_bitrix_sessid())
+    {
+        if(empty($arParams["REQUIRED_FIELDS"]) || !in_array("NONE", $arParams["REQUIRED_FIELDS"]))
+        {
+            if((empty($arParams["REQUIRED_FIELDS"]) || in_array("NAME", $arParams["REQUIRED_FIELDS"])) && mb_strlen($_POST["user_name"]) <= 1)
+                $arResult["ERROR_MESSAGE"][] = GetMessage("MF_REQ_NAME");
+            if((empty($arParams["REQUIRED_FIELDS"]) || in_array("EMAIL", $arParams["REQUIRED_FIELDS"])) && mb_strlen($_POST["user_email"]) <= 1)
+                $arResult["ERROR_MESSAGE"][] = GetMessage("MF_REQ_EMAIL");
+            if((empty($arParams["REQUIRED_FIELDS"]) || in_array("MESSAGE", $arParams["REQUIRED_FIELDS"])) && mb_strlen($_POST["MESSAGE"]) <= 3)
+                $arResult["ERROR_MESSAGE"][] = GetMessage("MF_REQ_MESSAGE");
+            // Добавляем проверку темы, если нужно
+            if((empty($arParams["REQUIRED_FIELDS"]) || in_array("NEWS_THEME", $arParams["REQUIRED_FIELDS"])) && empty($_POST["news_theme"]))
+                $arResult["ERROR_MESSAGE"][] = "Выберите тему новости";
+        }
+        if(mb_strlen($_POST["user_email"]) > 1 && !check_email($_POST["user_email"]))
+            $arResult["ERROR_MESSAGE"][] = GetMessage("MF_EMAIL_NOT_VALID");
+        if($arParams["USE_CAPTCHA"] == "Y")
+        {
+            $captcha_code = $_POST["captcha_sid"];
+            $captcha_word = $_POST["captcha_word"];
+            $cpt = new CCaptcha();
+            if ($captcha_word <> '' && $captcha_code <> '')
+            {
+                if (!$cpt->CheckCodeCrypt($captcha_word, $captcha_code))
+                    $arResult["ERROR_MESSAGE"][] = GetMessage("MF_CAPTCHA_WRONG");
+            }
+            else
+                $arResult["ERROR_MESSAGE"][] = GetMessage("MF_CAPTHCA_EMPTY");
+
+        }
+        if(empty($arResult["ERROR_MESSAGE"]))
+        {
+            // Получаем название темы по ID
+            $newsThemeName = '';
+            $newsThemeId = $_POST["news_theme"] ?? '';
+            if (!empty($newsThemeId) && isset($arResult["THEMES"][$newsThemeId])) {
+                $newsThemeName = $arResult["THEMES"][$newsThemeId];
+            }
+
+            $arFields = Array(
+                "AUTHOR" => $_POST["user_name"],
+                "AUTHOR_EMAIL" => $_POST["user_email"],
+                "EMAIL_TO" => $arParams["EMAIL_TO"],
+                "TEXT" => $_POST["MESSAGE"],
+                "NEWS_THEME_ID" => $newsThemeId, // ID темы
+                "NEWS_THEME_NAME" => $newsThemeName, // Название темы
+            );
+            
+            // Добавляем тему в текст сообщения
+            if (!empty($newsThemeName)) {
+                $arFields["TEXT"] = "Тема новости: " . $newsThemeName . "\n\n" . $arFields["TEXT"];
+            }
+
+            if(!empty($arParams["EVENT_MESSAGE_ID"]))
+            {
+                foreach($arParams["EVENT_MESSAGE_ID"] as $v)
+                    if(intval($v) > 0)
+                        CEvent::Send($arParams["EVENT_NAME"], SITE_ID, $arFields, "N", intval($v));
+            }
+            else
+                CEvent::Send($arParams["EVENT_NAME"], SITE_ID, $arFields);
+            
+            $_SESSION["MF_NAME"] = htmlspecialcharsbx($_POST["user_name"]);
+            $_SESSION["MF_EMAIL"] = htmlspecialcharsbx($_POST["user_email"]);
+            $_SESSION["MF_NEWS_THEME"] = htmlspecialcharsbx($newsThemeId);
+            
+            $event = new \Bitrix\Main\Event('main', 'onFeedbackFormSubmit', $arFields);
+            $event->send();
+            LocalRedirect($APPLICATION->GetCurPageParam("success=".$arResult["PARAMS_HASH"], Array("success")));
+        }
+
+        $arResult["MESSAGE"] = htmlspecialcharsbx($_POST["MESSAGE"]);
+        $arResult["AUTHOR_NAME"] = htmlspecialcharsbx($_POST["user_name"]);
+        $arResult["AUTHOR_EMAIL"] = htmlspecialcharsbx($_POST["user_email"]);
+        $arResult["SELECTED_THEME"] = htmlspecialcharsbx($_POST["news_theme"] ?? '');
+    }
+    else
+        $arResult["ERROR_MESSAGE"][] = GetMessage("MF_SESS_EXP");
+}
+elseif(isset($_REQUEST["success"]) && $_REQUEST["success"] == $arResult["PARAMS_HASH"])
+{
+    $arResult["OK_MESSAGE"] = $arParams["OK_TEXT"];
+}
+
+if(empty($arResult["ERROR_MESSAGE"]))
+{
+    if($USER->IsAuthorized())
+    {
+        $arResult["AUTHOR_NAME"] = $USER->GetFormattedName(false);
+        $arResult["AUTHOR_EMAIL"] = htmlspecialcharsbx($USER->GetEmail());
+    }
+    else
+    {
+        if($_SESSION["MF_NAME"] <> '')
+            $arResult["AUTHOR_NAME"] = htmlspecialcharsbx($_SESSION["MF_NAME"]);
+        if($_SESSION["MF_EMAIL"] <> '')
+            $arResult["AUTHOR_EMAIL"] = htmlspecialcharsbx($_SESSION["MF_EMAIL"]);
+        if($_SESSION["MF_NEWS_THEME"] <> '')
+            $arResult["SELECTED_THEME"] = htmlspecialcharsbx($_SESSION["MF_NEWS_THEME"]);
+    }
+}
+
+if($arParams["USE_CAPTCHA"] == "Y")
+    $arResult["capCode"] =  htmlspecialcharsbx($APPLICATION->CaptchaGetCode());
+
+$this->IncludeComponentTemplate();
+
+
+
+<?php
+if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
+	die();
+
+/**
+ * Bitrix vars
+ *
+ * @var array $arParams
+ * @var array $arResult
+ * @var CBitrixComponent $this
+ * @global CMain $APPLICATION
+ * @global CUser $USER
+ */
+
+$listThemes = array();
+
+if (CModule::IncludeModule("iblock")) {
+	$elements = CIBlockElement::GetList(
+		array(),
+		array('IBLOCK_ID' => 10, 'ACTIVE' => 'Y'),
+		false,
+		false,
+		array('ID', 'NAME')
+	);
+
+	while ($arElements = $elements->Fetch()) {
+		$listThemes[] = $arElements['NAME'];
+	}
+}
+$arResult['THEMES'] = $listThemes;
+
+$arResult["PARAMS_HASH"] = md5(serialize($arParams) . $this->GetTemplateName());
+
+$arParams["USE_CAPTCHA"] = (($arParams["USE_CAPTCHA"] != "N" && !$USER->IsAuthorized()) ? "Y" : "N");
+$arParams["EVENT_NAME"] = trim($arParams["EVENT_NAME"] ?? '');
+if ($arParams["EVENT_NAME"] == '')
+	$arParams["EVENT_NAME"] = "FEEDBACK_FORM";
+$arParams["EMAIL_TO"] = trim($arParams["EMAIL_TO"] ?? '');
+if ($arParams["EMAIL_TO"] == '')
+	$arParams["EMAIL_TO"] = COption::GetOptionString("main", "email_from");
+$arParams["OK_TEXT"] = trim($arParams["OK_TEXT"] ?? '');
+if ($arParams["OK_TEXT"] == '')
+	$arParams["OK_TEXT"] = GetMessage("MF_OK_MESSAGE");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["submit"]) && (!isset($_POST["PARAMS_HASH"]) || $arResult["PARAMS_HASH"] === $_POST["PARAMS_HASH"])) {
+	$arResult["ERROR_MESSAGE"] = array();
+	if (check_bitrix_sessid()) {
+		if (empty($arParams["REQUIRED_FIELDS"]) || !in_array("NONE", $arParams["REQUIRED_FIELDS"])) {
+			if ((empty($arParams["REQUIRED_FIELDS"]) || in_array("NAME", $arParams["REQUIRED_FIELDS"])) && mb_strlen($_POST["user_name"]) <= 1)
+				$arResult["ERROR_MESSAGE"][] = GetMessage("MF_REQ_NAME");
+			if ((empty($arParams["REQUIRED_FIELDS"]) || in_array("EMAIL", $arParams["REQUIRED_FIELDS"])) && mb_strlen($_POST["user_email"]) <= 1)
+				$arResult["ERROR_MESSAGE"][] = GetMessage("MF_REQ_EMAIL");
+			if ((empty($arParams["REQUIRED_FIELDS"]) || in_array("MESSAGE", $arParams["REQUIRED_FIELDS"])) && mb_strlen($_POST["MESSAGE"]) <= 3)
+				$arResult["ERROR_MESSAGE"][] = GetMessage("MF_REQ_MESSAGE");
+			if ((empty($arParams["REQUIRED_FIELDS"]) || in_array("NEWS_THEME", $arParams["REQUIRED_FIELDS"])) && empty($_POST["news_theme"]))
+				$arResult["ERROR_MESSAGE"][] = "Выберите тему новости";//
+		}
+		if (mb_strlen($_POST["user_email"]) > 1 && !check_email($_POST["user_email"]))
+			$arResult["ERROR_MESSAGE"][] = GetMessage("MF_EMAIL_NOT_VALID");
+		if ($arParams["USE_CAPTCHA"] == "Y") {
+			$captcha_code = $_POST["captcha_sid"];
+			$captcha_word = $_POST["captcha_word"];
+			$cpt = new CCaptcha();
+			if ($captcha_word <> '' && $captcha_code <> '') {
+				if (!$cpt->CheckCodeCrypt($captcha_word, $captcha_code))
+					$arResult["ERROR_MESSAGE"][] = GetMessage("MF_CAPTCHA_WRONG");
+			} else
+				$arResult["ERROR_MESSAGE"][] = GetMessage("MF_CAPTHCA_EMPTY");
+		}
+		if (empty($arResult["ERROR_MESSAGE"])) {
+			$newsThemeName = $_POST["news_theme"] ?? "";
+			$arFields = array(
+				"AUTHOR" => $_POST["user_name"],
+				"AUTHOR_EMAIL" => $_POST["user_email"],
+				"EMAIL_TO" => $arParams["EMAIL_TO"],
+				"TEXT" => $_POST["MESSAGE"],
+				"NEWS_THEME_NAME" => $newsThemeName,//
+			);
+
+			if (!empty($newsThemeName)) {
+                $arFields["TEXT"] = "Тема новости: " . $newsThemeName . "\n\n" . $arFields["TEXT"];
+            } //
+			
+			if (!empty($arParams["EVENT_MESSAGE_ID"])) {
+				foreach ($arParams["EVENT_MESSAGE_ID"] as $v)
+					if (intval($v) > 0)
+						CEvent::Send($arParams["EVENT_NAME"], SITE_ID, $arFields, "N", intval($v));
+			} else
+				CEvent::Send($arParams["EVENT_NAME"], SITE_ID, $arFields);
+			$_SESSION["MF_NAME"] = htmlspecialcharsbx($_POST["user_name"]);
+			$_SESSION["MF_EMAIL"] = htmlspecialcharsbx($_POST["user_email"]);
+			$_SESSION["MF_NEWS_THEME"] = htmlspecialcharsbx('test-theme'); //
+			$event = new \Bitrix\Main\Event('main', 'onFeedbackFormSubmit', $arFields);
+			$event->send();
+			LocalRedirect($APPLICATION->GetCurPageParam("success=" . $arResult["PARAMS_HASH"], array("success")));
+		}
+
+		$arResult["MESSAGE"] = htmlspecialcharsbx($_POST["MESSAGE"]);
+		$arResult["AUTHOR_NAME"] = htmlspecialcharsbx($_POST["user_name"]);
+		$arResult["AUTHOR_EMAIL"] = htmlspecialcharsbx($_POST["user_email"]);
+		$arResult["SELECTED_THEME"] = htmlspecialcharsbx($_POST["news_theme"] ?? ''); //
+	} else
+		$arResult["ERROR_MESSAGE"][] = GetMessage("MF_SESS_EXP");
+} elseif (isset($_REQUEST["success"]) && $_REQUEST["success"] == $arResult["PARAMS_HASH"]) {
+	$arResult["OK_MESSAGE"] = $arParams["OK_TEXT"];
+}
+
+if (empty($arResult["ERROR_MESSAGE"])) {
+	if ($USER->IsAuthorized()) {
+		$arResult["AUTHOR_NAME"] = $USER->GetFormattedName(false);
+		$arResult["AUTHOR_EMAIL"] = htmlspecialcharsbx($USER->GetEmail());
+	} else {
+		if ($_SESSION["MF_NAME"] <> '')
+			$arResult["AUTHOR_NAME"] = htmlspecialcharsbx($_SESSION["MF_NAME"]);
+		if ($_SESSION["MF_EMAIL"] <> '')
+			$arResult["AUTHOR_EMAIL"] = htmlspecialcharsbx($_SESSION["MF_EMAIL"]);
+		if ($_SESSION["MF_NEWS_THEME"] <> '')
+			$arResult["SELECTED_THEME"] = htmlspecialcharsbx($_SESSION["MF_NEWS_THEME"]); //
+	}
+}
+
+if ($arParams["USE_CAPTCHA"] == "Y")
+	$arResult["capCode"] = htmlspecialcharsbx($APPLICATION->CaptchaGetCode());
+
+$this->IncludeComponentTemplate();
+
+
+
+
+
+
+
+
+
+////////////////////////////////////STYLE.CSS FOR TOP MENU////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+/**Top menu**/
+#horizontal-multilevel-menu,#horizontal-multilevel-menu ul
+{
+	display: flex;
+	gap: 30px;
+	margin:0; padding:0;
+	background:#c10808 url(images/header_menu_bg.gif) repeat-x; //none
+	min-height:27px;
+	list-style:none;
+	font-size:17px;
+	float:left;
+	/*font-size:90%*/
+}
+
+#horizontal-multilevel-menu
+{
+	
+}
+
+.li_item {
+	width: 100px;
+}
+
+/*Links*/
+#horizontal-multilevel-menu a
+{
+	display:block;
+	padding:5px 10px;
+	/*padding:0.3em 0.8em;*/
+	text-decoration:none;
+	text-align:center;
+//color: black;
+//transition: all 0.3 ease;
+}
+
+#horizontal-multilevel-menu li
+{
+	float:left;
+}
+
+/*Root items*/
+#horizontal-multilevel-menu li a.root-item
+{
+	color:#ffffff;
+	font-weight:bold;
+	padding:7px 12px;
+}
+
+/*Root menu selected*/
+#horizontal-multilevel-menu li a.root-item-selected
+{
+	background:#757575;
+	color:#fff;
+	font-weight:bold;
+	padding:7px 12px;
+}
+
+/*Root items: hover*/
+#horizontal-multilevel-menu li:hover a.root-item, #horizontal-multilevel-menu li.jshover a.root-item
+{
+	background:#757575;
+	color:#fff;
+}
+
+/*Item-parents*/
+#horizontal-multilevel-menu a.parent
+{
+	background: url(images/arrow.gif) center right no-repeat;
+}
+
+/*Denied items*/
+#horizontal-multilevel-menu a.denied
+{
+	background: url(images/lock.gif) center right no-repeat;
+}
+
+/*Child-items: hover*/
+#horizontal-multilevel-menu li:hover, #horizontal-multilevel-menu li.jshover
+{
+	background:#D6D6D6;
+	color:#fff;
+}
+
+/*Child-items selected*/
+#horizontal-multilevel-menu li.item-selected
+{
+	background:#D6D6D6;
+	color:#fff;
+}
+
+/*Sub-menu box*/
+#horizontal-multilevel-menu li ul
+{
+	position:absolute;
+	/*top:-999em;*/
+	top:auto;
+	display:none;
+	z-index:500;
+
+	height:auto;
+	/*width:12em;*/
+	width:135px;
+	background:#F5F5F5;
+	border:1px solid #C1C1C1;
+}
+
+/*Sub-menu item box*/
+#horizontal-multilevel-menu li li
+{
+	width:100%;
+	border-bottom:1px solid #DEDEDE;
+}
+
+/*Item link*/
+#horizontal-multilevel-menu li ul a
+{
+	text-align:left;
+}
+
+/*Items text color & size */
+#horizontal-multilevel-menu li a,
+#horizontal-multilevel-menu li:hover li a,
+#horizontal-multilevel-menu li.jshover li a,
+#horizontal-multilevel-menu li:hover li:hover li a,
+#horizontal-multilevel-menu li.jshover li.jshover li a,
+#horizontal-multilevel-menu li:hover li:hover li:hover li a,
+#horizontal-multilevel-menu li.jshover li.jshover li.jshover li a,
+#horizontal-multilevel-menu li:hover li:hover li:hover li:hover li a,
+#horizontal-multilevel-menu li.jshover li.jshover li.jshover li.jshover li a,
+#horizontal-multilevel-menu li:hover li:hover li:hover li:hover li:hover li a,
+#horizontal-multilevel-menu li.jshover li.jshover li.jshover li.jshover li.jshover li a
+{
+	color:#000000;
+	font-weight:bold;
+}
+
+/*Items text color & size: hover*/
+#horizontal-multilevel-menu li:hover li:hover a,
+#horizontal-multilevel-menu li.jshover li.jshover a,
+#horizontal-multilevel-menu li:hover li:hover li:hover a,
+#horizontal-multilevel-menu li.jshover li.jshover li.jshover a,
+#horizontal-multilevel-menu li:hover li:hover li:hover li:hover a,
+#horizontal-multilevel-menu li.jshover li.jshover li.jshover li.jshover a
+#horizontal-multilevel-menu li:hover li:hover li:hover li:hover li:hover a,
+#horizontal-multilevel-menu li.jshover li.jshover li.jshover li.jshover li.jshover a
+#horizontal-multilevel-menu li:hover li:hover li:hover li:hover li:hover li:hover a,
+#horizontal-multilevel-menu li.jshover li.jshover li.jshover li.jshover li.jshover li.jshover a
+{
+	color:#4F4F4F;
+}
+
+#horizontal-multilevel-menu li ul ul
+{
+	margin:-27px 0 0 132px;
+	/*margin:-1.93em 0 0 11.6em;*/
+}
+
+#horizontal-multilevel-menu li:hover ul ul,
+#horizontal-multilevel-menu li.jshover ul ul,
+#horizontal-multilevel-menu li:hover ul ul ul,
+#horizontal-multilevel-menu li.jshover ul ul ul,
+#horizontal-multilevel-menu li:hover ul ul ul ul,
+#horizontal-multilevel-menu li.jshover ul ul ul ul,
+#horizontal-multilevel-menu li:hover ul ul ul ul ul,
+#horizontal-multilevel-menu li.jshover ul ul ul ul ul
+{
+	/*top:-999em;*/
+	display:none;
+}
+
+#horizontal-multilevel-menu li:hover ul,
+#horizontal-multilevel-menu li.jshover ul,
+#horizontal-multilevel-menu li li:hover ul,
+#horizontal-multilevel-menu li li.jshover ul,
+#horizontal-multilevel-menu li li li:hover ul,
+#horizontal-multilevel-menu li li li.jshover ul,
+#horizontal-multilevel-menu li li li li:hover ul,
+#horizontal-multilevel-menu li li li li.jshover ul,
+#horizontal-multilevel-menu li li li li li:hover ul,
+#horizontal-multilevel-menu li li li li li.jshover ul
+{
+	/*z-index:1000;
+	top:auto;*/
+	display:block;
+}
+
+div.menu-clear-left
+{
+	clear:left;
+}
