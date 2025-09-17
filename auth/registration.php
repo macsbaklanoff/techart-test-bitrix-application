@@ -2,16 +2,21 @@
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 $APPLICATION->SetTitle("Test");
 ?><?$APPLICATION->IncludeComponent(
-	"bitrix:main.register",
-	"",
-	Array(
+	"bitrix:main.register", 
+	"registration", 
+	array(
 		"AUTH" => "Y",
-		"REQUIRED_FIELDS" => array(),
+		"REQUIRED_FIELDS" => array(
+		),
 		"SET_TITLE" => "Y",
-		"SHOW_FIELDS" => array(),
+		"SHOW_FIELDS" => array(
+		),
 		"SUCCESS_PAGE" => "",
-		"USER_PROPERTY" => array(),
+		"USER_PROPERTY" => array(
+		),
 		"USER_PROPERTY_NAME" => "",
-		"USE_BACKURL" => "Y"
-	)
+		"USE_BACKURL" => "Y",
+		"COMPONENT_TEMPLATE" => "registration"
+	),
+	false
 );?><? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>
