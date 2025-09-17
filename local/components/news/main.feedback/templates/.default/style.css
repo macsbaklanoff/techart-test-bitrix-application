@@ -10,6 +10,11 @@ div.mf-message {
     padding-bottom: 0.4em;
 }
 
+.mf-text {
+    display: flex;
+    align-items: center;
+}
+
 div.mf-name input,
 div.mf-email input {
     width: 60%;

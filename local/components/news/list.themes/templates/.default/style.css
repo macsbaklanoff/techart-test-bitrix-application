@@ -1,0 +1,18 @@
+.main_content {
+    grid-column: 2/-2;
+}
+
+.main_content_header {
+    font-family: 'OpenSans-Regular';
+}
+
+.main_content_theme {
+    font-family: 'OpenSans-Regular';
+    font-size: 18px;
+}
+
+.main_content_theme:hover {
+    color: #841844;
+    transition: 250ms;
+    cursor: pointer;
+}

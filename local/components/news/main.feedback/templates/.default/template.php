@@ -27,17 +27,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<?= bitrix_sessid_post() ?>
 		<div class="mf-name">
 			<div class="mf-text">
+				<p>Ваше имя:</p>
 				<?= GetMessage("MFT_NAME") ?><? if (empty($arParams["REQUIRED_FIELDS"]) || in_array("NAME", $arParams["REQUIRED_FIELDS"])): ?><span
 						class="mf-req">*</span><? endif ?>
 			</div>
-			<input type="text" name="user_name" value="<?= $arResult["AUTHOR_NAME"] ?>">
+			<input placeholder="Ваше имя" type="text" name="user_name" value="<?= $arResult["AUTHOR_NAME"] ?>">
 		</div>
 		<div class="mf-email">
 			<div class="mf-text">
+				<p>Ваш email:</p>
 				<?= GetMessage("MFT_EMAIL") ?><? if (empty($arParams["REQUIRED_FIELDS"]) || in_array("EMAIL", $arParams["REQUIRED_FIELDS"])): ?><span
 						class="mf-req">*</span><? endif ?>
 			</div>
-			<input type="text" name="user_email" value="<?= $arResult["AUTHOR_EMAIL"] ?>">
+			<input placeholder="Ваш email" type="text" name="user_email" value="<?= $arResult["AUTHOR_EMAIL"] ?>">
 		</div>
 
 		<div class="mf-select">
@@ -51,10 +53,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 		<div class="mf-message">
 			<div class="mf-text">
+				<p>Ваше сообщение:</p>
 				<?= GetMessage("MFT_MESSAGE") ?><? if (empty($arParams["REQUIRED_FIELDS"]) || in_array("MESSAGE", $arParams["REQUIRED_FIELDS"])): ?><span
 						class="mf-req">*</span><? endif ?>
 			</div>
-			<textarea name="MESSAGE" rows="5" cols="40"><?= ($arResult["MESSAGE"] ?? '') ?></textarea>
+			<textarea placeholder="Сообщение" name="MESSAGE" rows="5" cols="40"><?= ($arResult["MESSAGE"] ?? '') ?></textarea>
 		</div>
 
 		<? if ($arParams["USE_CAPTCHA"] == "Y"): ?>

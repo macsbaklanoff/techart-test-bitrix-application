@@ -51,7 +51,8 @@ body, html {
 }
 
 .header_menu {
-  grid-column: 9/-2;
+  display: grid;
+  grid-column: 7/-2;
 }
 
 .footer {
@@ -74,4 +75,10 @@ body, html {
   font-family: 'OpenSans-Regular';
   font-size: 20px;
   color: #000;
+}
+
+@media (width < 1280px) {
+  .header_menu {
+    grid-column: 2/-2;
+  }
 }

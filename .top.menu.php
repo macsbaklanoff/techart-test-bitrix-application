@@ -1,6 +1,13 @@
 <?
 $aMenuLinks = Array(
 	Array(
+		'Темы новостей',
+		"/list-themes/",
+		Array(),
+		Array(),
+		""
+	),
+	Array(
 		"О компании", 
 		"/company/", 
 		Array(), 
@@ -27,6 +34,13 @@ $aMenuLinks = Array(
 		Array(),
 		Array(),
 		""
-	)
+	),
+	Array(
+		"Логин",
+		"/auth/",
+		Array(),
+		Array(),
+		""
+	),
 );
 ?>
