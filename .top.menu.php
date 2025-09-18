@@ -1,6 +1,13 @@
 <?
 $aMenuLinks = Array(
 	Array(
+		'Книги',
+		"/books/",
+		Array(),
+		Array(),
+		""
+	),
+	Array(
 		'Темы новостей',
 		"/list-themes/",
 		Array(),

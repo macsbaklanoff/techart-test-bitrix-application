@@ -60,20 +60,11 @@ $APPLICATION->SetTitle("Test");
 	)
 ); ?>
 <?
-
-$matches = array();
-preg_match('#^/news/filter-theme/(\d+)#', $_SERVER['REQUEST_URI'], $matches);
-$themeId = $matches[1];
-
-$themeId = $_REQUEST['themeId'];
-
-var_dump($_REQUEST['themeId']);
-
 global $USER;
 
 $arrFilterTheme = array(
     "PROPERTY" => array(
-        "theme" => $themeId
+        "theme" => $_REQUEST['themeId'],
     ),
 );
 

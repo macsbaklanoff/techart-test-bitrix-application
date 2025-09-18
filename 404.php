@@ -1,9 +1,16 @@
 <style>
-div {
-	grid-column: 7/-2;
-	font-family: 'OpenSans-Regular';
-	font-size: 16px;
-}
+	div {
+		grid-column: 7/-2;
+		font-family: 'OpenSans-Regular';
+		font-size: 16px;
+	}
+
+	.label_page_not_found {
+		grid-column: 6/-2;
+		font-family: 'OpenSans-Regular';
+		font-size: 18px;
+		text-decoration: none;
+	}
 </style>
 
 <?
@@ -19,17 +26,8 @@ $APPLICATION->SetTitle("404 Not Found");
 ?>
 
 <div>
-	<h1>Page not found</h1>
+	<h1 class="label_page_not_found">Page not found</h1>
+	<a href="/news/" class="label_page_not_found">На главную</a>
 </div>
 
-<?
-// $APPLICATION->IncludeComponent("bitrix:main.map", ".default", Array(
-// 	"LEVEL"	=>	"3",
-// 	"COL_NUM"	=>	"2",
-// 	"SHOW_DESCRIPTION"	=>	"Y",
-// 	"SET_TITLE"	=>	"Y",
-// 	"CACHE_TIME"	=>	"36000000"
-// 	)
-// );
-
-require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>
+<?require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>

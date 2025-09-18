@@ -2,16 +2,12 @@
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 $APPLICATION->SetTitle("Test");
 
-$matches = array();
-preg_match('#^/news/(\d+)#', $_SERVER['REQUEST_URI'], $matches);
+?>
+<?
 
-$idNews = $matches[1];
-
-var_dump($_REQUEST["newsId"]);
-
-?><?$APPLICATION->IncludeComponent(
-	"bitrix:news.detail", 
-	"detail", 
+$APPLICATION->IncludeComponent(
+	"bitrix:news.detail",
+	"detail",
 	array(
 		"ACTIVE_DATE_FORMAT" => "d.m.Y",
 		"ADD_ELEMENT_CHAIN" => "N",
@@ -58,7 +54,7 @@ var_dump($_REQUEST["newsId"]);
 		"PAGER_TEMPLATE" => ".default",
 		"PAGER_TITLE" => "Страница",
 		"PROPERTY_CODE" => array(
-			0 => "",
+			0 => "special_news",
 			1 => "theme",
 			2 => "",
 		),
@@ -76,4 +72,4 @@ var_dump($_REQUEST["newsId"]);
 		"FILE_404" => ""
 	),
 	false
-);?><? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>
+); ?><? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>

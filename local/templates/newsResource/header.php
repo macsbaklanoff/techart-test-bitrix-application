@@ -24,7 +24,7 @@ endif;
 		<? $APPLICATION->ShowPanel(); ?>
 	</div>
 	<header class="header">
-		<a href='/news/' class="header_info">
+		<a href='/' class="header_info">
 			<img class="header_info_icon" src="/upload/icons/logo 1.svg">
 			<p class="header_info_headline">ГАЛАКТИЧЕСКИЙ </br> ВЕСТНИК</p>
 			<p class="header_label_name" ><?=! empty($userName) ? 'Имя: ' . $userName : ''?></p>

@@ -1,14 +1,15 @@
 @font-face {
-	font-family: 'OpenSans-SemiBold'; 
-	src: url(/fonts/OpenSans-SemiBold.ttf); 
-}
- 
-@font-face {
-	font-family: 'OpenSans-Regular'; 
-	src: url(/fonts/OpenSans-Regular.ttf); 
+  font-family: 'OpenSans-SemiBold';
+  src: url(/fonts/OpenSans-SemiBold.ttf);
 }
 
-body, html {
+@font-face {
+  font-family: 'OpenSans-Regular';
+  src: url(/fonts/OpenSans-Regular.ttf);
+}
+
+body,
+html {
   margin: 0;
   width: 100dvw;
   height: 100dvh;
@@ -30,16 +31,24 @@ body, html {
   grid-column: 1/-1;
   padding-top: 40px;
 }
+
 .header_info {
   display: flex;
   grid-column: 2/7;
   gap: 24px;
   text-decoration: none;
 }
+
+.header_info:hover {
+  text-decoration: none;
+}
+
 .header_info_icon {
   width: 98px;
   height: 66px;
+  text-decoration: none;
 }
+
 .header_info_headline {
   margin: 0;
   font-family: 'OpenSans-Regular';
@@ -48,6 +57,7 @@ body, html {
   line-height: 132%;
   letter-spacing: 3.5px;
   color: #2C145E;
+  text-decoration: none;
 }
 
 .header_label_name {
