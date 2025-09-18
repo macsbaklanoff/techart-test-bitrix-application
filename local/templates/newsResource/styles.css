@@ -50,6 +50,12 @@ body, html {
   color: #2C145E;
 }
 
+.header_label_name {
+  color: #2C145E;
+  font-family: 'OpenSans-Regular';
+  font-size: 16px;
+}
+
 .header_menu {
   display: grid;
   grid-column: 7/-2;

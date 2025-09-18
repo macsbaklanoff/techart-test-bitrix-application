@@ -3,7 +3,7 @@ $arUrlRewrite=array (
   1 => 
   array (
     'CONDITION' => '#^/news/filter-theme/(\\d+)/#',
-    'RULE' => '',
+    'RULE' => 'themeId=$1',
     'ID' => '',
     'PATH' => '/news/index.php',
     'SORT' => 100,
@@ -11,7 +11,7 @@ $arUrlRewrite=array (
   0 => 
   array (
     'CONDITION' => '#^/news/(\\d+)/#',
-    'RULE' => '',
+    'RULE' => 'newsId=$1',
     'ID' => '',
     'PATH' => '/news/detail.php',
     'SORT' => 100,
