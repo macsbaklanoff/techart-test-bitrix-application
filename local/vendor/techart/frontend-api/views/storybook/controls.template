@@ -1,6 +1,0 @@
-export const @name@ = Template@name@.bind({});
-
-@name@.args = @args@;
-
-@name@.argTypes = @args_types@;
-

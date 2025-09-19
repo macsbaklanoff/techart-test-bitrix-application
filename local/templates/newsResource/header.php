@@ -54,6 +54,7 @@ $menu = ob_get_clean();
 	<div class="panel" id="panel">
 		<? $APPLICATION->ShowPanel(); ?>
 	</div>
+	
 	<?=
 		\TAO::frontend()->renderBlock(
 			'common/header',
@@ -63,3 +64,4 @@ $menu = ob_get_clean();
 			],
 		)
 		?>
+		

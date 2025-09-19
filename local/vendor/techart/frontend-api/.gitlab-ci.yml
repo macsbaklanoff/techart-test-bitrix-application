@@ -1,5 +1,0 @@
-variables:
- UPDATE_REPO: "git@github.com:techart/frontend-api.git"
-include:
- - project: "libs/cicd-includes"
-   file: "/templates/.gitlab-ci-packagist.yml"
