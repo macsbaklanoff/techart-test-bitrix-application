@@ -1,4 +1,9 @@
 <style>
+
+#bx_incl_area_2 {
+  grid-column: 2/-2;
+}
+
 .main_content {
   grid-column: 2/-2;
 }

@@ -1,0 +1,57 @@
+@use "style" as *;
+
+$block-name: "b-header";
+
+.#{$block-name} {
+	//
+	display: grid;
+	grid-template-columns: subgrid;
+	grid-auto-rows: min-content;
+	grid-column: 1 / -1;
+	padding-top: 40px;
+
+	&__info {
+		display: flex;
+		grid-column: 2/7;
+		gap: 24px;
+		text-decoration: none;
+	}
+
+	&__info:hover {
+		text-decoration: none;
+	}
+
+	&__icon {
+		width: 98px;
+		height: 66px;
+		text-decoration: none;
+	}
+
+	&__headline {
+		margin: 0;
+		font-family: OpenSans-Regular;
+		font-weight: 400;
+		font-size: 28px;
+		line-height: 132%;
+		letter-spacing: 3.5px;
+		color: #2c145e;
+		text-decoration: none;
+	}
+
+	&__label-name {
+		color: #2c145e;
+		font-family: OpenSans-Regular;
+		font-size: 16px;
+	}
+
+	&__menu {
+		display: grid;
+		grid-column: 7/-2;
+	}
+
+	@media (width < 1410px) {
+		&__menu {
+			grid-column: 2/-2;
+		}
+	}
+}

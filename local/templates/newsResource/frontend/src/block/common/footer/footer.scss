@@ -1,0 +1,26 @@
+@use "style" as *;
+
+$block-name: "b-footer";
+
+.#{$block-name} {
+	//
+	display: grid;
+	margin-top: 83px;
+	grid-column: 2/-2;
+
+	&__footer-line {
+		display: grid;
+		grid-template-columns: subgrid;
+		grid-column: 2/-2;
+		height: 1px;
+		background-color: #6c6e7b;
+	}
+
+	&__footer-info {
+		margin: 0;
+		padding-block: 63px;
+		font-family: OpenSans-Regular;
+		font-size: 20px;
+		color: #000;
+	}
+}
