@@ -1,0 +1,17 @@
+@use "style" as *;
+
+$block-name: "b-header-news";
+
+.#{$block-name} {
+	//
+	margin: 0;
+	grid-column: 2/-2;
+
+	&__headline {
+		margin: 0;
+		margin-top: 50px;
+		font-family: OpenSans-SemiBold;
+		font-size: 64px;
+		color: #000;
+	}
+}

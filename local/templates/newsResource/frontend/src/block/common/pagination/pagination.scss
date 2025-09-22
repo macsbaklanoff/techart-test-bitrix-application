@@ -1,0 +1,66 @@
+@use "style" as *;
+
+$block-name: "b-pagination";
+
+.#{$block-name} {
+	//
+	margin: 0;
+	margin-top: 82px;
+	display: flex;
+	gap: 16px;
+	justify-content: flex-end;
+
+	&__item {
+		display: flex;
+		background-color: #fff;
+		width: 56px;
+		height: 54px;
+		border: 2px solid #841844;
+		color: #841844;
+		border-radius: 50px;
+		justify-content: center;
+		align-items: center;
+		text-decoration: none;
+		font-family: OpenSans-SemiBold;
+		font-size: 16px;
+		text-transform: uppercase;
+
+		&--current {
+			background-color: #841844;
+			color: #fff;
+		}
+	}
+
+	&__item:hover {
+		cursor: pointer;
+		background-color: #841844;
+		color: #fff;
+		transition: 250ms;
+	}
+
+	&__next {
+		display: grid;
+		background-color: #fff;
+		width: 106px;
+		height: 54px;
+		border: 2px solid #841844;
+		color: #841844;
+		border-radius: 50px;
+		place-items: center;
+	}
+
+	&__next:hover {
+		cursor: pointer;
+		background-color: #841844;
+		transition: 250ms;
+	}
+
+	&__none-item {
+		display: none;
+	}
+
+	&__next:hover &__arrow-next-page {
+		content: url("/upload/icons/arrow-next-page-hover.png");
+		transition: 250ms;
+	}
+}

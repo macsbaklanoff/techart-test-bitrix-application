@@ -17,8 +17,8 @@ endif;
 <?
 ob_start();
 $APPLICATION->IncludeComponent(
-	"bitrix:menu",
-	"horizontal_multilevel",
+	"bitrix:menu", 
+	"horizontal_multilevel", 
 	array(
 		"ALLOW_MULTI_SELECT" => "N",
 		"CHILD_MENU_TYPE" => "left",
@@ -33,7 +33,7 @@ $APPLICATION->IncludeComponent(
 		"USE_EXT_MENU" => "Y",
 		"COMPONENT_TEMPLATE" => "horizontal_multilevel",
 		"MENU_THEME" => "site",
-		"USE_EXT" => "Y",
+		"USE_EXT" => "Y"
 	),
 	false
 );

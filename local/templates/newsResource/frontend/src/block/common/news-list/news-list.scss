@@ -1,0 +1,13 @@
+@use "style" as *;
+
+$block-name: "b-news-list";
+
+.#{$block-name} {
+	//
+	margin: 0;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin-top: 60px;
+	row-gap: 82px;
+	column-gap: 50px;
+}

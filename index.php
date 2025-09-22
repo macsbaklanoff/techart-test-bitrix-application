@@ -17,9 +17,8 @@
 }
 
 .button_more {
-  display: grid;
-  grid-template-columns: min-content min-content;
-  column-gap: 10px;
+  display: flex;
+  gap: 10px;
   align-items: center;
   justify-content: center;
   margin: 0;
@@ -56,7 +55,7 @@ $APPLICATION->SetTitle("Test");
     <h4 class="news_header_headline">Новости</h4>
     <button class="button_more" onclick="window.location.href = '/news'">
         Подробнее
-        <img class="more-arrow" src="/upload/icons/arrow-more.png">
+        <img class="more-arrow" src="upload/icons/arrow-more.png">
     </button>
 </div>
 

@@ -1,6 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
-$APPLICATION->SetTitle("Test");
+$APPLICATION->SetTitle("Главная страница");
 ?><? $APPLICATION->IncludeComponent(
 	"bitrix:news.list",
 	"banner",
@@ -52,7 +52,7 @@ $APPLICATION->SetTitle("Test");
 		"SET_STATUS_404" => "N",
 		"SET_TITLE" => "Y",
 		"SHOW_404" => "N",
-		"SORT_BY1" => "PROPERTY_ID",
+		"SORT_BY1" => "ACTIVE_FROM",
 		"SORT_BY2" => "SORT",
 		"SORT_ORDER1" => "DESC",
 		"SORT_ORDER2" => "ASC",
@@ -63,14 +63,35 @@ $APPLICATION->SetTitle("Test");
 global $USER;
 
 $arrFilterTheme = array(
-    "PROPERTY" => array(
-        "theme" => $_REQUEST['themeId'],
-    ),
+	"PROPERTY" => array(
+		"theme" => $_REQUEST['themeId'],
+	),
 );
 
 if (!$USER->IsAuthorized()) {
-    $arrFilterTheme["PROPERTY"]["special_news_VALUE"] = 'N';
+	$arrFilterTheme["PROPERTY"]["special_news_VALUE"] = 'N';
 }
+
+$resultHeaderNews = '';
+
+if (preg_match('#^/news/filter-theme/(\d+)#', $_SERVER['REQUEST_URI'], $matches)) {
+	$res = CIBlockElement::GetByID($matches[1]);
+	$theme = $res->GetNext();
+	$resultHeaderNews = 'Новости по теме ' . $theme['NAME'];
+} else {
+	$resultHeaderNews = 'Новости';
+}
+
+?>
+<?=
+	\TAO::frontend()->renderBlock(
+		'common/header-news',
+		[
+			'headline' => $resultHeaderNews
+		],
+	)
+?>
+<?
 
 $APPLICATION->IncludeComponent(
 	"bitrix:news.list",

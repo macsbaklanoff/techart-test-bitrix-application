@@ -2,13 +2,10 @@
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 $APPLICATION->SetTitle("Test");
 
-?>
-<?
-
-$APPLICATION->IncludeComponent(
+?><?$APPLICATION->IncludeComponent(
 	"bitrix:news.detail",
 	"detail",
-	array(
+	Array(
 		"ACTIVE_DATE_FORMAT" => "d.m.Y",
 		"ADD_ELEMENT_CHAIN" => "N",
 		"ADD_SECTIONS_CHAIN" => "Y",
@@ -32,16 +29,8 @@ $APPLICATION->IncludeComponent(
 		"DISPLAY_TOP_PAGER" => "N",
 		"ELEMENT_CODE" => "",
 		"ELEMENT_ID" => $_REQUEST["newsId"],
-		"FIELD_CODE" => array(
-			0 => "ID",
-			1 => "NAME",
-			2 => "PREVIEW_TEXT",
-			3 => "DETAIL_TEXT",
-			4 => "DETAIL_PICTURE",
-			5 => "ACTIVE_FROM",
-			6 => "ACTIVE_TO",
-			7 => "",
-		),
+		"FIELD_CODE" => array(0=>"ID",1=>"NAME",2=>"PREVIEW_TEXT",3=>"DETAIL_TEXT",4=>"DETAIL_PICTURE",5=>"ACTIVE_FROM",6=>"ACTIVE_TO",7=>"",),
+		"FILE_404" => "",
 		"IBLOCK_ID" => "9",
 		"IBLOCK_TYPE" => "news",
 		"IBLOCK_URL" => "",
@@ -53,11 +42,7 @@ $APPLICATION->IncludeComponent(
 		"PAGER_SHOW_ALL" => "N",
 		"PAGER_TEMPLATE" => ".default",
 		"PAGER_TITLE" => "Страница",
-		"PROPERTY_CODE" => array(
-			0 => "special_news",
-			1 => "theme",
-			2 => "",
-		),
+		"PROPERTY_CODE" => array(0=>"special_news",1=>"theme",2=>"",),
 		"SET_BROWSER_TITLE" => "Y",
 		"SET_CANONICAL_URL" => "N",
 		"SET_LAST_MODIFIED" => "N",
@@ -68,8 +53,6 @@ $APPLICATION->IncludeComponent(
 		"SHOW_404" => "Y",
 		"STRICT_SECTION_CHECK" => "N",
 		"USE_PERMISSIONS" => "N",
-		"USE_SHARE" => "N",
-		"FILE_404" => ""
-	),
-	false
-); ?><? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>
+		"USE_SHARE" => "N"
+	)
+);?><? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>

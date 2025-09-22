@@ -3,7 +3,7 @@
 @php
     $previousLevel = 0;
 @endphp
-<ul class="{{ $block->elem('list') }}">
+<ul id="horizontal-multilevel-menu">
         @foreach($arResult as $arItem)
             @if ($previousLevel && $arItem["DEPTH_LEVEL"] < $previousLevel)
                 {!! str_repeat("</ul></li>", ($previousLevel - $arItem["DEPTH_LEVEL"])) !!}
@@ -17,18 +17,18 @@
                     }}">{{ $arItem['TEXT'] }}</a>
                     <ul>
                 @else
-                    <li class="{{ $arItem['SELECTED'] ? $block->elem('item-selected li_item') : $block->elem('') }}">
+                    <li class="{{ $arItem['SELECTED'] ? $block->elem('item-selected li-item') : $block->elem('') }}">
                         <a href="{{ $arItem['LINK'] }}" class="{{ $block->elem('parent') }}">{{ $arItem['TEXT'] }}</a>
                     <ul>
                 @endif
             @else
                 @if ($arItem['PERMISSION'] > "D")
                     @if($arItem['DEPTH_LEVEL'] == 1)
-                        <li class="{{ $block->elem('li_item') }}">
+                        <li class="{{ $block->elem('li-item') }}">
                             <a href="{{ $arItem['LINK'] }}" class="{{ $arItem['SELECTED'] ? $block->elem('root-item-selected') : $block->elem('root-item') }}">{{ $arItem['TEXT'] }}</a>
                         </li>
                     @else
-                        <li class="{{ $arItem['SELECTED'] ? $block->elem('item-selected li_item') : $block->elem('') }}">
+                        <li class="{{ $arItem['SELECTED'] ? $block->elem('item-selected li-item') : $block->elem('') }}">
                             <a href="{{ $arItem['LINK'] }}">{{ $arItem['TEXT'] }}</a>
                         </li>
                     @endif
