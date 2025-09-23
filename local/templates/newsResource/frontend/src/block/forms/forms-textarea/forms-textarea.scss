@@ -1,0 +1,23 @@
+@use "style" as *;
+
+$block-name: "b-forms-textarea";
+
+.#{$block-name} {
+	//
+
+	display: grid;
+	row-gap: 5px;
+
+	&__info {
+		display: flex;
+		align-items: center;
+	}
+
+	&__mf-req {
+		color: red;
+	}
+
+	&__input-message {
+		border-radius: 8px;
+	}
+}

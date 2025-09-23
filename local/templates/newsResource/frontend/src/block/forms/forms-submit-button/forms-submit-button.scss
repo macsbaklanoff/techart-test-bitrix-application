@@ -1,0 +1,17 @@
+@use "style" as *;
+
+$block-name: "b-forms-submit-button";
+
+.#{$block-name} {
+	//
+
+	&__submit-button {
+		background-color: #fff;
+		color: #000;
+		border-radius: 8px;
+	}
+
+	&__submit-button:hover {
+		cursor: pointer;
+	}
+}

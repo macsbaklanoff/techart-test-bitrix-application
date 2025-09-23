@@ -1,3 +1,15 @@
+#bx_incl_area_2 {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1/-1;
+}
+
+#bx_incl_area_2_1 {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1/-1;
+}
+
 div.mfeedback {
     grid-column: 2/-2;
 }

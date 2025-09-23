@@ -1,0 +1,17 @@
+@use "style" as *;
+
+$block-name: "b-forms-form";
+
+.#{$block-name} {
+	//
+	font-family: OpenSans-Regular;
+
+	&__form-container {
+		display: grid;
+		row-gap: 12px;
+	}
+
+	&__error-container {
+		color: red;
+	}
+}

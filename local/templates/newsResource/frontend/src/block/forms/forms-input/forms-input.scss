@@ -1,0 +1,31 @@
+@use "style" as *;
+
+$block-name: "b-forms-input";
+
+p {
+	margin: 0;
+}
+
+.#{$block-name} {
+	//
+
+	display: grid;
+	row-gap: 5px;
+
+	&__info {
+		display: flex;
+		align-items: center;
+
+		&__mf-req {
+			color: red;
+		}
+	}
+
+	&__text-input {
+		border-radius: 8px;
+	}
+
+	&__text-input:focus {
+		outline: none;
+	}
+}

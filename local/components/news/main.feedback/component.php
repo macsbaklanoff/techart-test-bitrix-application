@@ -67,16 +67,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["submit"]) && (!isset(
 		}
 		if (empty($arResult["ERROR_MESSAGE"])) {
 			$newsThemeName = $_POST["news_theme"] ?? "";
+			$phone = $_POST["phone"] ?? "";
 			$arFields = array(
 				"AUTHOR" => $_POST["user_name"],
 				"AUTHOR_EMAIL" => $_POST["user_email"],
 				"EMAIL_TO" => $arParams["EMAIL_TO"],
 				"TEXT" => $_POST["MESSAGE"],
 				"NEWS_THEME_NAME" => $newsThemeName,//
+				"PHONE" => $_POST["phone"],//
 			);
 
 			if (!empty($newsThemeName)) {
                 $arFields["TEXT"] = "Тема новости: " . $newsThemeName . "\n\n" . $arFields["TEXT"];
+            } //
+			if (!empty($phone)) {
+                $arFields["PHONE"] = "Номер телефона: " . $phone . "\n\n" . $arFields["PHONE"];
             } //
 			
 			if (!empty($arParams["EVENT_MESSAGE_ID"])) {
@@ -88,6 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["submit"]) && (!isset(
 			$_SESSION["MF_NAME"] = htmlspecialcharsbx($_POST["user_name"]);
 			$_SESSION["MF_EMAIL"] = htmlspecialcharsbx($_POST["user_email"]);
 			$_SESSION["MF_NEWS_THEME"] = htmlspecialcharsbx('test-theme'); //
+			$_SESSION["MF_PHONE"] = htmlspecialchars('phone');//
 			$event = new \Bitrix\Main\Event('main', 'onFeedbackFormSubmit', $arFields);
 			$event->send();
 			LocalRedirect($APPLICATION->GetCurPageParam("success=" . $arResult["PARAMS_HASH"], array("success")));
@@ -97,6 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["submit"]) && (!isset(
 		$arResult["AUTHOR_NAME"] = htmlspecialcharsbx($_POST["user_name"]);
 		$arResult["AUTHOR_EMAIL"] = htmlspecialcharsbx($_POST["user_email"]);
 		$arResult["SELECTED_THEME"] = htmlspecialcharsbx($_POST["news_theme"] ?? ''); //
+		$arResult["PHONE"] = htmlspecialchars($_POST["phone"]);//
 	} else
 		$arResult["ERROR_MESSAGE"][] = GetMessage("MF_SESS_EXP");
 } elseif (isset($_REQUEST["success"]) && $_REQUEST["success"] == $arResult["PARAMS_HASH"]) {
@@ -114,6 +121,8 @@ if (empty($arResult["ERROR_MESSAGE"])) {
 			$arResult["AUTHOR_EMAIL"] = htmlspecialcharsbx($_SESSION["MF_EMAIL"]);
 		if ($_SESSION["MF_NEWS_THEME"] <> '')
 			$arResult["SELECTED_THEME"] = htmlspecialcharsbx($_SESSION["MF_NEWS_THEME"]); //
+		if ($_SESSION["MF_PHONE"] <> '')
+			$arResult["PHONE"] = htmlspecialcharsbx($_SESSION["MF_PHONE"]); //
 	}
 }
 
