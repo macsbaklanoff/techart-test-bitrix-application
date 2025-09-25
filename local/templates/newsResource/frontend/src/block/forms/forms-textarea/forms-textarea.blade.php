@@ -2,7 +2,7 @@
     <div class="{{ $block->elem('info') }}" >
         <p>{{ $field['label'] }}:</p>
         {{ $field['message'] }}
-        @if(empty($arParams['REQUERED_FIELDS']) || in_array($field['needle'], $arParams['REQUIRED_FIELDS']))
+        @if($field['required'])
             <span class="{{ $block->elem('mf-req') }}" >*</span>
         @endif
     </div>

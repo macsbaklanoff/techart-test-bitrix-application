@@ -2,7 +2,7 @@
     <div class="{{ $block->elem('info') }}">
         <p>{{ $field['placeholder'] }}:</p>
         {{ $message }}
-        @if (empty($arParams['REQUIRED_FIELDS']) || in_array($field['NAME'], $arParams["REQUIRED_FIELDS"]))
+        @if (empty($arParams['REQUIRED_FIELDS']) || in_array($field['needle'], $arParams["REQUIRED_FIELDS"]))
             <span class="{{ $block->elem('info__mf-req') }}">*</span>
         @endif
     </div>

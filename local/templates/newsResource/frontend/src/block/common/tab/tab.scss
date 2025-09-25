@@ -1,0 +1,58 @@
+@use "style" as *;
+
+$block-name: "b-tab";
+
+.#{$block-name} {
+	//
+
+	display: grid;
+	grid-column: 2/-2;
+
+	&__map {
+		display: grid;
+		grid-column: 1/-1;
+		height: 50vh;
+	}
+
+	&__my-popup {
+		display: none;
+		width: auto;
+		height: auto;
+		padding: 20px;
+		background-color: #fff;
+		border: 1px solid #bbb;
+		font-family: OpenSans-Regular;
+		color: #000;
+		border-radius: 10px;
+		position: absolute;
+		z-index: 2;
+	}
+
+	&__popup {
+		display: flex;
+		background-color: #fff;
+		color: #000;
+		font-family: OpenSans-Regular;
+	}
+
+	&__reference {
+		display: flex;
+		gap: 14px;
+	}
+
+	&__office-tula {
+		font-family: OpenSans-SemiBold;
+	}
+
+	&__office-moscow {
+		font-family: OpenSans-Regular;
+	}
+
+	&__office-tula:hover {
+		cursor: pointer;
+	}
+
+	&__office-moscow:hover {
+		cursor: pointer;
+	}
+}

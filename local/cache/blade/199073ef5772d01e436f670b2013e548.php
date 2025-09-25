@@ -3,7 +3,7 @@
         <p><?php echo e($field['label']); ?>:</p>
         <?php echo e($field['message']); ?>
 
-        <?php if(empty($arParams['REQUERED_FIELDS']) || in_array($field['needle'], $arParams['REQUIRED_FIELDS'])): ?>
+        <?php if($field['required']): ?>
             <span class="<?php echo e($block->elem('mf-req')); ?>" >*</span>
         <?php endif; ?>
     </div>

@@ -15,6 +15,8 @@ $APPLICATION->SetTitle("Test");
 		"OK_TEXT" => "Спасибо, ваше сообщение принято.",
 		"EMAIL_TO" => "baklanov@techart.ru",
 		"REQUIRED_FIELDS" => array(
+			"NAME",
+			"MESSAGE"
 		),
 		"EVENT_MESSAGE_ID" => array(
 		)

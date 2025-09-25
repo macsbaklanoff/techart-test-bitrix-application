@@ -46,6 +46,7 @@ $menu = ob_get_clean();
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://api-maps.yandex.ru/v3/?apikey=4a43d2b8-c8f7-4c46-a75c-cf09f41d911f&lang=ru_RU"></script>
 	<title><? $APPLICATION->ShowTitle(); ?></title>
 	<? $APPLICATION->ShowHead(); ?>
 </head>

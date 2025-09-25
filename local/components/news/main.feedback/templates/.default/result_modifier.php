@@ -6,20 +6,18 @@ $fields = [
         'type' => 'text',
         'placeholder' => "Ваше имя",
         'name' => 'user_name',
-        'value' => '',
-        'message' => '',
         'needle' => "NAME",
-        'id' => 'name-input'
+        'id' => 'name-input',
+        'required' => true,
     ],
     [
         'nameForm' => 'input',
         'type' => 'email',
         'placeholder' => "Ваш email",
         'name' => 'user_email',
-        'value' => '',
-        'message' => '',
         'needle' => "EMAIL",
         'id' => 'email-input',
+        'required' => false,
     ],
     [
         'nameForm' => 'input',
@@ -30,6 +28,7 @@ $fields = [
         'message' => '',
         'needle' => "EMAIL",
         'id' => 'phone-input',
+        'required' => false,
     ],
     [
         'nameForm' => 'select',
@@ -38,6 +37,7 @@ $fields = [
         'name' => 'news_theme',
         'themes' => $arResult['THEMES'],
         'id' => 'select',
+        'required' => false,
     ],
     [
         'nameForm' => 'textarea',
@@ -49,7 +49,8 @@ $fields = [
         'arResultMessage' => $arResult['MESSAGE'],
         'message' => '',
         'needle' => 'MESSAGE',
-        'id' => 'message-input'
+        'id' => 'message-input',
+        'required' => true,
     ],
     [
         'nameForm' => 'submit-button',

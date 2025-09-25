@@ -1571,6 +1571,16 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@yandex/ymaps3-default-ui-theme@^0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@yandex/ymaps3-default-ui-theme/-/ymaps3-default-ui-theme-0.0.19.tgz#f13b7234c3c7841eb0fa057bc7fda905ddd27e4e"
+  integrity sha512-kjrlmrUQ9OnULbSnZ+AkwHeN/QG3B6rEUcA8MXs3ai33inyWU3n+ivsW2Ezbcw5e6+QiG4h5wg1c32qZJWI+ig==
+
+"@yandex/ymaps3-types@^1.0.17566762":
+  version "1.0.17566762"
+  resolved "https://registry.yarnpkg.com/@yandex/ymaps3-types/-/ymaps3-types-1.0.17566762.tgz#5999dd9dbb75e2720ac308b7f6bdad6dad623404"
+  integrity sha512-chhmnOvtmT1G48/w+ZgOefGez6M8uv3yzDxsouZkcyT9I4wn4sgcF5Cq6fAG5IhozR+vmZv+6tDOyAdPyV5/Vw==
+
 accepts@~1.3.4, accepts@~1.3.8:
   version "1.3.8"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.8.tgz#0bf0be125b67014adcb0b0921e62db7bffe16b2e"
@@ -3098,6 +3108,11 @@ ini@^1.3.5:
   version "1.3.8"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
+
+inputmask@^5.0.9:
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-5.0.9.tgz#7bf4e83f5e199c88c0edf28545dc23fa208ef4be"
+  integrity sha512-s0lUfqcEbel+EQXtehXqwCJGShutgieOaIImFKC/r4reYNvX3foyrChl6LOEvaEgxEbesePIrw1Zi2jhZaDZbQ==
 
 interpret@^3.1.1:
   version "3.1.1"

@@ -1,0 +1,44 @@
+@use "style" as *;
+
+$block-name: "b-map-moscow";
+
+.#{$block-name} {
+	//
+	display: none;
+	grid-template-columns: subgrid;
+	row-gap: 15px;
+	grid-column: 1/-1;
+	position: relative;
+	z-index: 1;
+
+	&__map {
+		display: grid;
+		grid-column: 1/-1;
+		height: 50vh;
+	}
+
+	&__info-office {
+		grid-column: 2/-2;
+	}
+
+	&__my-popup {
+		display: none;
+		width: auto;
+		height: auto;
+		padding: 20px;
+		background-color: #fff;
+		border: 1px solid #bbb;
+		font-family: OpenSans-Regular;
+		color: #000;
+		border-radius: 10px;
+		position: absolute;
+		z-index: 2;
+	}
+
+	&__popup {
+		display: flex;
+		background-color: #fff;
+		color: #000;
+		font-family: OpenSans-Regular;
+	}
+}
