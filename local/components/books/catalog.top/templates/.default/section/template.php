@@ -15,11 +15,27 @@ use Bitrix\Catalog\ProductTable;
  * @var string $componentPath
  */
 
+CJSCore::Init(['ajax', 'popup', 'fx']);
+
+
+$this->addExternalJS("/bitrix/components/bitrix/catalog.item/templates/.default/script.js");
+
+$this->addExternalCss("/bitrix/components/bitrix/catalog.item/templates/.default/style.css");
+
+$this->addExternalCss('/bitrix/css/main/bootstrap.css');
+
+
 $areaIds = [];
 $itemParameters = [];
 
 foreach ($arResult['ITEMS'] as $item) {
-	$uniqueId = $item['ID'] . '_' . md5($this->randString() . $component->getAction());
+	$action = 'processOrder';
+
+	if ($arResult['IS_NEW_ORDER']) {
+		$action = 'showOrder';
+	}
+
+	$uniqueId = $item['ID'] . '_' . md5($this->randString() . $action);
 	$areaIds[$item['ID']] = $this->GetEditAreaId($uniqueId);
 	$this->AddEditAction($uniqueId, $item['EDIT_LINK'], $elementEdit);
 	$this->AddDeleteAction($uniqueId, $item['DELETE_LINK'], $elementDelete, $elementDeleteParams);
@@ -34,7 +50,6 @@ foreach ($arResult['ITEMS'] as $item) {
 }
 
 ?>
-
 <?=
 	\TAO::frontend()->renderBlock(
 		'common/books',
@@ -43,4 +58,4 @@ foreach ($arResult['ITEMS'] as $item) {
 			'areaIds' => $areaIds,
 		]
 	)
-	?>
+?>

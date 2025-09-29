@@ -3,9 +3,9 @@ require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 $APPLICATION->SetTitle("Test");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
-	"catalog", 
+	"block.catalog", 
 	array(
-		"COMPONENT_TEMPLATE" => "catalog",
+		"COMPONENT_TEMPLATE" => "block.catalog",
 		"IBLOCK_TYPE" => "11",
 		"IBLOCK_ID" => "11",
 		"HIDE_NOT_AVAILABLE" => "N",
