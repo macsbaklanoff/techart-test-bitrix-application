@@ -1,4 +1,5 @@
 bitrix
 www/local/templates/newsResource/builds
 www/local/templates/newsResource/frontend/node_modules
-www/local/vendor
+local/vendor
+node_modules
