@@ -1,5 +1,5 @@
 <div class="{{ $block->mod($mods ?? []) }}@if($class ?? false) {{ $class }}@endif">
-    <div class="product-item-container" id="{{ $areaId }}">
+    <div class="product-item-container {{ $block->elem('product-item-container') }}" id="{{ $areaId }}">
         <div class="product-item {{ $block->elem('item-container') }}">
             <a class="{{ $block->elem('item-container__image') }}" href="{!! $item['DETAIL_PAGE_URL'] !!}"
                 title="{{ $item['NAME'] }}" data-entity="image-wrapper">
@@ -26,9 +26,9 @@
                 </span>
             </div>
 
-            <div class="product-item-info-container product-item-hidden" data-entity="buttons-block">
-                <div class="product-item-button-container" id="{{ $areaId . '_basket_actions'}}">
-                    <a class="btn btn-default btn-md" id="{{ $areaId . '_buy_link'}}" href="javascript:void(0)"
+            <div class="bx-blue product-item-info-container product-item-hidden {{ $block->elem('product-item-info-container') }} " data-entity="buttons-block">
+                <div class="product-item-button-container" class="{{ $block->elem('product-item-button-container') }}" id="{{ $areaId . '_basket_actions'}}">
+                    <a class="btn btn-default btn-md" class="{{ $block->elem('button') }}" id="{{ $areaId . '_buy_link'}}" href="javascript:void(0)"
                         rel="nofollow">
                         В корзину </a>
                 </div>

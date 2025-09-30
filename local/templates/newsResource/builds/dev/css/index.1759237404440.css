@@ -392,6 +392,10 @@ img {
   border: 1px solid transparent;
   border-radius: 2px;
 }
+.b-book__product-item-container {
+  display: grid;
+  width: 300px;
+}
 .b-book__item-container {
   display: grid;
   width: 300px;
@@ -435,6 +439,25 @@ img {
 
 .product-item-container {
   width: 100%;
+}
+
+.bx-blue .btn.btn-default {
+  outline: 0;
+  background-color: #1485ce;
+  border-color: #1485ce;
+  color: #fff;
+}
+
+.bx-blue .btn.btn-default:hover {
+  outline: 0;
+  background-color: #53a4d8;
+  border-color: #53a4d8;
+  color: #fff;
+}
+
+.bx-blue .btn.btn-default:active {
+  outline: 0;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 /*!**************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/block/common/books/books.scss ***!
@@ -963,4 +986,4 @@ img {
   cursor: pointer;
 }
 
-/*# sourceMappingURL=index.1759219301988.css.map*/
+/*# sourceMappingURL=index.1759237404440.css.map*/

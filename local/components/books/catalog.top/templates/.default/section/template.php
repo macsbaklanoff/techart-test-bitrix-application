@@ -19,6 +19,8 @@ $this->addExternalJS("/bitrix/components/bitrix/catalog.item/templates/.default/
 
 $this->addExternalCss("/bitrix/components/bitrix/catalog.item/templates/.default/style.css");
 
+$this->addExternalCss("/bitrix/css/main/themes/blue/style.min.css?1757068847331");
+
 $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 
 $areaIds = [];

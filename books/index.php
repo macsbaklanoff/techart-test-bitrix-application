@@ -3,9 +3,9 @@ require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 $APPLICATION->SetTitle("Test");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
-	"block.catalog", 
+	"catalog", 
 	array(
-		"COMPONENT_TEMPLATE" => "block.catalog",
+		"COMPONENT_TEMPLATE" => "catalog",
 		"IBLOCK_TYPE" => "11",
 		"IBLOCK_ID" => "11",
 		"HIDE_NOT_AVAILABLE" => "N",
@@ -65,7 +65,7 @@ $APPLICATION->SetTitle("Test");
 		"PRICE_VAT_INCLUDE" => "Y",
 		"PRICE_VAT_SHOW_VALUE" => "N",
 		"CONVERT_CURRENCY" => "N",
-		"BASKET_URL" => "/personal/basket.php",
+		"BASKET_URL" => "/books/basket.php",
 		"USE_PRODUCT_QUANTITY" => "N",
 		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",

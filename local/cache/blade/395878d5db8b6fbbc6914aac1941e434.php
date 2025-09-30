@@ -28,7 +28,7 @@
                 </span>
             </div>
 
-            <div class="product-item-info-container product-item-hidden" data-entity="buttons-block">
+            <div class="bx-blue product-item-info-container product-item-hidden" data-entity="buttons-block">
                 <div class="product-item-button-container" id="<?php echo e($areaId . '_basket_actions'); ?>">
                     <a class="btn btn-default btn-md" id="<?php echo e($areaId . '_buy_link'); ?>" href="javascript:void(0)"
                         rel="nofollow">
