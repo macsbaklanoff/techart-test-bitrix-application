@@ -1,5 +1,5 @@
-<div class="product-item-container" id="{{ $areaId }}">
-    <div class="product-item-container" data-entity="item">
+<div class="{{ $block->mod($mods ?? []) }}@if($class ?? false) {{ $class }}@endif">
+    <div class="product-item-container" data-entity="item" id="{{ $areaId }}">
         <div class="product-item">
             <a class="product-item-image-wrapper" href="/books/?SECTION_ID=&amp;ELEMENT_ID=106"
                 title="Таинственные истории" data-entity="image-wrapper">
