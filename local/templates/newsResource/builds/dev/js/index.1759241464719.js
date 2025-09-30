@@ -9,6 +9,7 @@
 
 var map = {
 	"./banner/banner.scss": "./src/block/common/banner/banner.scss",
+	"./book-detail/book-detail.scss": "./src/block/common/book-detail/book-detail.scss",
 	"./book/book.js": "./src/block/common/book/book.js",
 	"./book/book.scss": "./src/block/common/book/book.scss",
 	"./books/books.scss": "./src/block/common/books/books.scss",
@@ -57,6 +58,22 @@ webpackContext.id = "./src/block/common sync recursive ^\\.\\/[^/]+\\/[^/.]+\\.(
 /*!*********************************************!*\
   !*** ./src/block/common/banner/banner.scss ***!
   \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// extracted by mini-css-extract-plugin
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+
+/***/ }),
+
+/***/ "./src/block/common/book-detail/book-detail.scss":
+/*!*******************************************************!*\
+  !*** ./src/block/common/book-detail/book-detail.scss ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -673,4 +690,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=index.1759237404440.js.map
+//# sourceMappingURL=index.1759241464719.js.map

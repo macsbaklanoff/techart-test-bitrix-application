@@ -1,5 +1,5 @@
 <div class="<?php echo e($block->mod($mods ?? [])); ?><?php if($class ?? false): ?> <?php echo e($class); ?><?php endif; ?>">
-    <div class="product-item-container" id="<?php echo e($areaId); ?>">
+    <div class="product-item-container <?php echo e($block->elem('product-item-container')); ?>" id="<?php echo e($areaId); ?>">
         <div class="product-item <?php echo e($block->elem('item-container')); ?>">
             <a class="<?php echo e($block->elem('item-container__image')); ?>" href="<?php echo $item['DETAIL_PAGE_URL']; ?>"
                 title="<?php echo e($item['NAME']); ?>" data-entity="image-wrapper">
@@ -28,9 +28,9 @@
                 </span>
             </div>
 
-            <div class="bx-blue product-item-info-container product-item-hidden" data-entity="buttons-block">
-                <div class="product-item-button-container" id="<?php echo e($areaId . '_basket_actions'); ?>">
-                    <a class="btn btn-default btn-md" id="<?php echo e($areaId . '_buy_link'); ?>" href="javascript:void(0)"
+            <div class="bx-blue product-item-info-container product-item-hidden <?php echo e($block->elem('product-item-info-container')); ?> " data-entity="buttons-block">
+                <div class="product-item-button-container" class="<?php echo e($block->elem('product-item-button-container')); ?>" id="<?php echo e($areaId . '_basket_actions'); ?>">
+                    <a class="btn btn-default btn-md" class="<?php echo e($block->elem('button')); ?>" id="<?php echo e($areaId . '_buy_link'); ?>" href="javascript:void(0)"
                         rel="nofollow">
                         В корзину </a>
                 </div>
