@@ -1,20 +1,37 @@
-<div class="{{ $block->mod($mods ?? []) }}@if($class ?? false) {{ $class }}@endif" data-entity="item"
-    id="{{ $areaId }}">
-    <div class="product-item-container" >
-        <a href="{!! $item['DETAIL_PAGE_URL'] !!}" data-entity="image-wrapper">
-            <img src="{{ $item['DETAIL_PICTURE']['SRC'] }}" class="{{ $block->elem('image') }}">
-        </a>
-        <p class="{{ $block->elem('title') }}">{{ $item['NAME'] }}</p>
-        <div class="{{ $block->elem('price-block') }}" data-entity="price-block">
-            <p class="{{ $block->elem('price') }}" id="{{ $areaId . '_price' }}">
-                {!! $item['ITEM_PRICES'][0]['PRINT_PRICE'] !!}
-            </p>
-        </div>
-        <div class="product-item-button-container" id="{{ $areaId . '_basket_actions' }}"
-            data-entity="buttons-block">
-            <a class="btn btn-default btn-md" id="{{ $areaId . '_buy_link' }}" rel="nofollow">
-                В корзину
+<div class="{{ $block->mod($mods ?? []) }}@if($class ?? false) {{ $class }}@endif" id="{{ $areaId }}">
+    <div class="product-item-container">
+        <div class="{{ $block->elem('item-container') }}">
+            <a class="{{ $block->elem('item-container__image') }}" href="{!! $item['DETAIL_PAGE_URL'] !!}"
+                title="{{ $item['NAME'] }}" data-entity="image-wrapper">
+                <span id="{{ $areaId . '_pict_slider'}}" style="display: none;" data-slider-interval="3000"
+                    data-slider-wrap="true">
+                </span>
+                <span class="{{ $block->elem('item-container__image__pict') }}" id="{{ $areaId . '_pict'}}"
+                    style="background-image: url('{{ $item['DETAIL_PICTURE']['SRC'] }}'); ">
+                </span>
+                <img class="{{ $block->elem('item-container__image__pict') }}" id="{{ $areaId . '_secondpict'}}"
+                    src="{{ $item['DETAIL_PICTURE']['SRC'] }}" style="display: none;" />
+                <div id="{{ $areaId . '_pict_slider_indicator'}}" style="display: none;">
+                </div>
             </a>
+            <div class="{{ $block->elem('item-container__title-container') }}">
+                <a class="{{ $block->elem('item-container__title-container__title') }}"
+                    href="{{ $item['DETAIL_PAGE_URL'] }}" title="{{ $item['NAME'] }}">
+                    {{ $item['NAME'] }}
+                </a>
+            </div>
+            <div class="{{ $block->elem('item-container__price-container') }}" data-entity="price-block">
+                <span class="{{ $block->elem('item-container__price-container__price') }}" id="{{ $areaId . '_price'}}">
+                    {!! $item['ITEM_PRICES'][0]['PRINT_PRICE'] !!}
+                </span>
+            </div>
+
+            <div class="{{ $block->elem('item-container__button-container') }}" id="{{ $areaId . '_basket_actions' }}"
+                data-entity="buttons-block">
+                <a class="btn btn-default btn-md" id="{{ $areaId . '_buy_link' }}" rel="nofollow">
+                    В корзину
+                </a>
+            </div>
         </div>
     </div>
     <script>

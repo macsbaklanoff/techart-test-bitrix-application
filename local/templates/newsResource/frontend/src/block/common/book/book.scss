@@ -4,10 +4,57 @@ $block-name: "b-book";
 
 .#{$block-name} {
 	//
-	display: block;
-	box-sizing: border-box;
+	display: flex;
 	padding: 15px 0 5px;
-	width: 70%;
+	max-width: 300px;
 	border: 1px solid transparent;
 	border-radius: 2px;
+
+	&__item-container {
+		display: grid;
+		width: 300px;
+
+		&__image {
+			width: 100%;
+			height: 400px;
+			overflow: hidden;
+
+			&__pict {
+				display: flex;
+				width: 100%;
+				height: 100%;
+				background-position: center;
+				background-size: contain;
+				background-repeat: no-repeat;
+			}
+		}
+
+		&__title-container {
+			overflow: hidden;
+			margin-bottom: 15px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+
+			&__title {
+				font-size: 21px;
+				color: #3f3f3f;
+				text-decoration: none;
+			}
+		}
+
+		&__price-container {
+			margin: 0 0 10px;
+
+			&__price {
+				font-size: 18px;
+				color: #3f3f3f;
+				white-space: nowrap;
+				font-weight: bold;
+			}
+		}
+
+		&__button-container {
+			text-align: center;
+		}
+	}
 }

@@ -1,21 +1,39 @@
-<div class="<?php echo e($block->mod($mods ?? [])); ?><?php if($class ?? false): ?> <?php echo e($class); ?><?php endif; ?>" data-entity="item"
-    id="<?php echo e($areaId); ?>">
-    <div class="product-item-container" >
-        <a href="<?php echo $item['DETAIL_PAGE_URL']; ?>" data-entity="image-wrapper">
-            <img src="<?php echo e($item['DETAIL_PICTURE']['SRC']); ?>" class="<?php echo e($block->elem('image')); ?>">
-        </a>
-        <p class="<?php echo e($block->elem('title')); ?>"><?php echo e($item['NAME']); ?></p>
-        <div class="<?php echo e($block->elem('price-block')); ?>" data-entity="price-block">
-            <p class="<?php echo e($block->elem('price')); ?>" id="<?php echo e($areaId . '_price'); ?>">
-                <?php echo $item['ITEM_PRICES'][0]['PRINT_PRICE']; ?>
-
-            </p>
-        </div>
-        <div class="product-item-button-container" id="<?php echo e($areaId . '_basket_actions'); ?>"
-            data-entity="buttons-block">
-            <a class="btn btn-default btn-md" id="<?php echo e($areaId . '_buy_link'); ?>" rel="nofollow">
-                В корзину
+<div class="<?php echo e($block->mod($mods ?? [])); ?><?php if($class ?? false): ?> <?php echo e($class); ?><?php endif; ?>" id="<?php echo e($areaId); ?>">
+    <div class="product-item-container">
+        <div class="<?php echo e($block->elem('item-container')); ?>">
+            <a class="<?php echo e($block->elem('item-container__image')); ?>" href="<?php echo $item['DETAIL_PAGE_URL']; ?>"
+                title="<?php echo e($item['NAME']); ?>" data-entity="image-wrapper">
+                <span id="<?php echo e($areaId . '_pict_slider'); ?>" style="display: none;" data-slider-interval="3000"
+                    data-slider-wrap="true">
+                </span>
+                <span class="<?php echo e($block->elem('item-container__image__pict')); ?>" id="<?php echo e($areaId . '_pict'); ?>"
+                    style="background-image: url('<?php echo e($item['DETAIL_PICTURE']['SRC']); ?>'); ">
+                </span>
+                <img class="<?php echo e($block->elem('item-container__image__pict')); ?>" id="<?php echo e($areaId . '_secondpict'); ?>"
+                    src="<?php echo e($item['DETAIL_PICTURE']['SRC']); ?>" style="display: none;" />
+                <div id="<?php echo e($areaId . '_pict_slider_indicator'); ?>" style="display: none;">
+                </div>
             </a>
+            <div class="<?php echo e($block->elem('item-container__title-container')); ?>">
+                <a class="<?php echo e($block->elem('item-container__title-container__title')); ?>"
+                    href="<?php echo e($item['DETAIL_PAGE_URL']); ?>" title="<?php echo e($item['NAME']); ?>">
+                    <?php echo e($item['NAME']); ?>
+
+                </a>
+            </div>
+            <div class="<?php echo e($block->elem('item-container__price-container')); ?>" data-entity="price-block">
+                <span class="<?php echo e($block->elem('item-container__price-container__price')); ?>" id="<?php echo e($areaId . '_price'); ?>">
+                    <?php echo $item['ITEM_PRICES'][0]['PRINT_PRICE']; ?>
+
+                </span>
+            </div>
+
+            <div class="<?php echo e($block->elem('item-container__button-container')); ?>" id="<?php echo e($areaId . '_basket_actions'); ?>"
+                data-entity="buttons-block">
+                <a class="btn btn-default btn-md" id="<?php echo e($areaId . '_buy_link'); ?>" rel="nofollow">
+                    В корзину
+                </a>
+            </div>
         </div>
     </div>
     <script>
