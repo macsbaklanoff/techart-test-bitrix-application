@@ -385,7 +385,24 @@ img {
 /*!************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/block/common/book-detail-list/book-detail-list.scss ***!
   \************************************************************************************************************************************************************************************************************************/
-
+.b-book-detail-list {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1/-1;
+}
+.b-book-detail-list__header {
+  grid-column: 2/-2;
+}
+.b-book-detail-list__line {
+  grid-column: 2/-2;
+}
+.b-book-detail-list__elements {
+  display: grid;
+  grid-template-columns: repeat(4, 150px);
+  grid-column: 2/-2;
+  -moz-column-gap: 100px;
+       column-gap: 100px;
+}
 /*!**************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/block/common/book-detail/book-detail.scss ***!
   \**************************************************************************************************************************************************************************************************************/
@@ -430,17 +447,17 @@ img {
 .b-book {
   display: flex;
   padding: 15px 0 5px;
-  max-width: 300px;
+  max-width: 100%;
   border: 1px solid transparent;
   border-radius: 2px;
 }
 .b-book__product-item-container {
   display: grid;
-  width: 300px;
+  width: 100%;
 }
 .b-book__item-container {
   display: grid;
-  width: 300px;
+  width: 100%;
 }
 .b-book__item-container__image {
   width: 100%;
@@ -506,7 +523,7 @@ img {
   \**************************************************************************************************************************************************************************************************/
 .b-books {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   grid-column: 2/-2;
 }
 /*!****************************************************************************************************************************************************************************************************************!*\

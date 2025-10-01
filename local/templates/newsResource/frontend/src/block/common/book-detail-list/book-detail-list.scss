@@ -4,4 +4,22 @@ $block-name: "b-book-detail-list";
 
 .#{$block-name} {
 	//
+	display: grid;
+	grid-template-columns: subgrid;
+	grid-column: 1/-1;
+
+	&__header {
+		grid-column: 2/-2;
+	}
+
+	&__line {
+		grid-column: 2/-2;
+	}
+
+	&__elements {
+		display: grid;
+		grid-template-columns: repeat(4, 150px);
+		grid-column: 2/-2;
+		column-gap: 100px;
+	}
 }
