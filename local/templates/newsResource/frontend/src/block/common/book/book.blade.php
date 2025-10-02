@@ -16,12 +16,12 @@
             </a>
             <div class="{{ $block->elem('item-container__title-container') }}">
                 <a class="{{ $block->elem('item-container__title-container__title') }}"
-                    href="{{ $item['DETAIL_PAGE_URL'] }}" title="{{ $item['NAME'] }}">
+                    href="{{ $item['DETAIL_PAGE_URL'] }}" title="{{ $item['NAME'] }}" style="font-size: {{ $fontSize }}">
                     {{ $item['NAME'] }}
                 </a>
             </div>
             <div class="{{ $block->elem('item-container__price-container') }}" data-entity="price-block">
-                <span class="{{ $block->elem('item-container__price-container__price') }}" id="{{ $areaId . '_price'}}">
+                <span class="{{ $block->elem('item-container__price-container__price') }}" id="{{ $areaId . '_price'}}" style="font-size: {{ $fontSize }}" >
                     {!! $item['ITEM_PRICES'][0]['PRINT_PRICE'] !!}
                 </span>
             </div>

@@ -4,7 +4,8 @@
                 'common/book',
                 [
                     'item' => $item,
-                    'areaId' =>  $areaIds[$item['ID']]
+                    'areaId' =>  $areaIds[$item['ID']],
+                    'fontSize' => '21px',
                 ]
             ); ?>
 

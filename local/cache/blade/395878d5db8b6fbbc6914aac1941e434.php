@@ -16,13 +16,13 @@
             </a>
             <div class="<?php echo e($block->elem('item-container__title-container')); ?>">
                 <a class="<?php echo e($block->elem('item-container__title-container__title')); ?>"
-                    href="<?php echo e($item['DETAIL_PAGE_URL']); ?>" title="<?php echo e($item['NAME']); ?>">
+                    href="<?php echo e($item['DETAIL_PAGE_URL']); ?>" title="<?php echo e($item['NAME']); ?>" style="font-size: <?php echo e($fontSize); ?>">
                     <?php echo e($item['NAME']); ?>
 
                 </a>
             </div>
             <div class="<?php echo e($block->elem('item-container__price-container')); ?>" data-entity="price-block">
-                <span class="<?php echo e($block->elem('item-container__price-container__price')); ?>" id="<?php echo e($areaId . '_price'); ?>">
+                <span class="<?php echo e($block->elem('item-container__price-container__price')); ?>" id="<?php echo e($areaId . '_price'); ?>" style="font-size: <?php echo e($fontSize); ?>" >
                     <?php echo $item['ITEM_PRICES'][0]['PRINT_PRICE']; ?>
 
                 </span>
